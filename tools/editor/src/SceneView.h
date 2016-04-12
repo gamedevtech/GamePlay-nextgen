@@ -17,7 +17,8 @@ class SceneView : public QWidget
     Q_OBJECT
 public:
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param parent The parent widget.
      */
     explicit SceneView(QWidget* parent = 0);
@@ -27,14 +28,20 @@ public:
      */
     ~SceneView();
 
+    /**
+     * Sets the editor this scene view is connected to.
+     *
+     * @param editor The editor this scene view is connected to.
+     */
+    void setEditor(EditorWindow* editor);
+
 public slots:
     /**
-     * Handler for scene changing.
+     * Handler when the scene changes.
      */
     void sceneChanged();
     
 private:
-
     void visitNodeAddItem(Node* parent, QTreeWidgetItem* parentItem);
 
     Ui::SceneView* _ui;

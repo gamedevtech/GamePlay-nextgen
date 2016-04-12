@@ -13,8 +13,8 @@
 #define PROJECT_FILE "game.project"
 
 
-ProjectWizard::ProjectWizard(QWidget* parent) :
-    QDialog(parent), _ui(new Ui::ProjectWizard), _editor(NULL)
+ProjectWizard::ProjectWizard(QWidget* parent) : QDialog(parent), 
+    _ui(new Ui::ProjectWizard), _editor(NULL)
 {
     _ui->setupUi(this);
 }

@@ -68,7 +68,6 @@ signals:
 
 private:
     Ui::ProjectView* _ui;
-    EditorWindow* _editor;
     Project* _project;
 };
 

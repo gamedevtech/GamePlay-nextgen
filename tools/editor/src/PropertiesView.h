@@ -16,6 +16,7 @@ class PropertiesView : public QWidget
 public:
     /**
      * Constructor.
+     *
      * @param parent The parent widget.
      */
     explicit PropertiesView(QWidget* parent = 0);

@@ -18,7 +18,8 @@ class GameView : public QOpenGLWidget, protected QOpenGLFunctions, public Game
     Q_OBJECT
 public:
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param parent The parent widget.
      */
     explicit GameView(QWidget* parent = 0);
@@ -28,15 +29,23 @@ public:
      */
     ~GameView();
 
+    /**
+     * Sets the editor window this game view uses.
+     *
+     * @param editor The editor window this game view uses.
+     */
+    void setEditor(EditorWindow* editor);
+
 public slots:
     /**
      * Slots handler for resource path changing.
+     *
      * @param path The new resource path.
      */
     void resourcePathChanged(const QString& path);
 
     /**
-     * Slot handler for scene changing.
+     * Handler when the scene changes.
      */
     void sceneChanged();
 

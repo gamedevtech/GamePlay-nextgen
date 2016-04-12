@@ -26,6 +26,7 @@ class EditorWindow : public QMainWindow
 public:
     /**
      * Constructor.
+     *
      * @param parent The parent widget.
      */
     explicit EditorWindow(QWidget* parent = 0);
@@ -37,24 +38,28 @@ public:
 
     /**
      * Gets the asset path for the project.
+     *
      * @return The asset path.
      */
     const std::string& getAssetPath() const;
 
     /**
-     * Sets the project wizard
+     * Sets the project wizard.
+     *
      * @param projectWizard
      */
     void setProjectWizard(ProjectWizard* projectWizard);
 
     /**
      * Gets the opened project.
+     *
      * @return The currently open project.
      */
     Project* project() const;
 
     /**
      * Gets the opened scene.
+     *
      * @return The open scene.
      */
     Scene* scene() const;
@@ -62,12 +67,14 @@ public:
 public slots:
     /**
      * Handler for opening a project.
+     *
      * @param path The path to the project opened.
      */
     void projectOpened(const QString& path);
 
     /**
      * Handler for opening a scene.
+     *
      * @param path The path to the scene opened.
      */
     void sceneOpened(const QString& path);
@@ -98,10 +105,10 @@ private:
     GameView* _gameView;
     ProjectWizard* _projectWizard;
     ProjectView* _projectView;
-    SceneView*_sceneView;
     PropertiesView *_propertiesView;
-    std::string _assetPath;
+    SceneView*_sceneView;
     Scene* _scene;
+    std::string _assetPath;
 };
 
 #endif

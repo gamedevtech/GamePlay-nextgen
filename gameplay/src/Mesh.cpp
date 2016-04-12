@@ -303,7 +303,7 @@ Mesh* Mesh::createCylinder(unsigned int divs)
 
     float height = 0.0;
     float angle = 0.0;
-    float angleIncrement = 20.0f * M_PI / divs;
+    float angleIncrement = 20.0f * MATH_PI / divs;
     unsigned int vertexSize = mesh->getVertexSize();
     float* vertices = new float[vertexCount * vertexSize];
     for(unsigned int j = 0; j <= 1; j++, height += 2.0f)
@@ -370,7 +370,7 @@ Mesh* Mesh::createCone(unsigned int divs)
     mesh->_primitiveType = PrimitiveType::TRIANGLE_STRIP;
 
     float angle = 0;
-    float angleIncr = 2.0f * M_PI / divs;
+    float angleIncr = 2.0f * MATH_PI / divs;
     float angleToPlaneXZ = atan(2.0f / 1.0f);
     float cosToXZ = std::cosf(angleToPlaneXZ);
     float sinToXZ = std::sinf(angleToPlaneXZ);

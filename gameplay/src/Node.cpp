@@ -1259,7 +1259,7 @@ void Node::serialize(Serializer* serializer)
     
     serializer->writeObject("parent", _parent);
     serializer->writeObjectList("children", _childCount);
-    for (Node* child = getFirstChild(); child != NULL; child = child->getNextSibling())
+    for (Node* child = _firstChild; child != NULL; child = child->_nextSibling)
     {
         serializer->writeObject(NULL, child);
     }

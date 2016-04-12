@@ -13,6 +13,7 @@ class ProjectTreeView : public QTreeView
 public:
     /**
      * Constructor.
+     *
      * @param parent The parent widget.
      */
     explicit ProjectTreeView(QWidget* parent = 0);
@@ -25,6 +26,7 @@ public slots:
 
     /**
      * Slot for an item being double clicked.
+     *
      * @param index The index of the item double clicked.
      */
     void itemDoubleClicked(const QModelIndex& index);
@@ -32,6 +34,7 @@ public slots:
 protected:
     /**
      * Handler fo context menu events.
+     *
      * @param event The context menu event.
      */
     void contextMenuEvent(QContextMenuEvent* event);

@@ -11,11 +11,9 @@
 
 #define EDITOR_WINDOW_TITLE "GamePlay Editor"
 
-EditorWindow::EditorWindow(QWidget* parent) :
-    QMainWindow(parent), _ui(new Ui::EditorWindow),
-    _projectWizard(0), _projectView(0),
-    _gameView(0), _sceneView(0), _propertiesView(0),
-    _scene(NULL)
+EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent), 
+    _ui(new Ui::EditorWindow), _projectWizard(0), _projectView(0),
+    _gameView(0), _sceneView(0), _propertiesView(0), _scene(NULL)
 {
     _ui->setupUi(this);
 
@@ -142,6 +140,8 @@ EditorWindow::EditorWindow(QWidget* parent) :
     connect(_ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(actionNewTriggered()));
     connect(_projectView, SIGNAL(sceneOpened(QString)), this, SLOT(sceneOpened(QString)));
 
+    _sceneView->setEditor(this);
+    _gameView->setEditor(this);
     connect(this, SIGNAL(sceneChanged()), _sceneView, SLOT(sceneChanged()));
     connect(this, SIGNAL(sceneChanged()), _gameView, SLOT(sceneChanged()));
 }

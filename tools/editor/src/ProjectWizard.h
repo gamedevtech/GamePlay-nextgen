@@ -22,9 +22,9 @@ class ProjectWizard : public QDialog
     Q_OBJECT
 
 public:
-
     /**
      * Constructor.
+     *
      * @param parent The parent widget.
      */
     explicit ProjectWizard(QWidget* parent = 0);
@@ -41,15 +41,17 @@ public:
 
     /**
      * Sets the editor to interface with.
+     *
      * @param editor The editor to interface with.
      */
     void setEditor(EditorWindow* editor);
 
-     void readProjects();
-
+    /**
+     * Reads all the projects.
+     */
+    void readProjects();
 
 public slots:
-
     /**
      * Handles the new project pressed.
      */
@@ -86,11 +88,9 @@ public slots:
     void projectDirectoryTextChanged();
 
 signals:
-
     void projectOpened(const QString& path);
 
 private:
-
     Ui::ProjectWizard* _ui;
     EditorWindow* _editor;
     QStringList _recentProjects;

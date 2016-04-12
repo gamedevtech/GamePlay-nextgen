@@ -14,7 +14,8 @@ class Project : public QFileSystemModel, Serializable
     Q_OBJECT
 public:
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param parent The parent widget.
      */
     explicit Project(QObject* parent = 0);

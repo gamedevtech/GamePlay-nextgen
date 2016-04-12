@@ -1,10 +1,8 @@
 #include "GameView.h"
 #include <QtWidgets>
 
-GameView::GameView(QWidget* parent) :
-    QOpenGLWidget(parent),
-    _editor(static_cast<EditorWindow*>(parent)),
-    _scene(NULL), _wireframe(false)
+GameView::GameView(QWidget* parent) : QOpenGLWidget(parent), 
+    _editor(NULL), _scene(NULL), _wireframe(false)
 {
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
@@ -16,6 +14,11 @@ GameView::GameView(QWidget* parent) :
 GameView::~GameView()
 {
     Game::getInstance()->exit();
+}
+
+void GameView::setEditor(EditorWindow* editor)
+{
+    _editor = editor;
 }
 
 void GameView::resourcePathChanged(const QString& path)
@@ -31,6 +34,7 @@ void GameView::sceneChanged()
 {
     _scene = _editor->scene();
 }
+
 
 void GameView::initialize()
 {

@@ -4,10 +4,8 @@
 #include <QtWidgets>
 
 
-ProjectView::ProjectView(QWidget* parent) :
-    QWidget(parent), _ui(new Ui::ProjectView),
-    _editor(static_cast<EditorWindow*>(parent)),
-    _project(NULL)
+ProjectView::ProjectView(QWidget* parent) : QWidget(parent), 
+    _ui(new Ui::ProjectView), _project(NULL)
 {
     _ui->setupUi(this);
 
