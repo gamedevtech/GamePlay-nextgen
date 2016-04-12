@@ -54,6 +54,8 @@
         <file>res/images/project-play.png</file>
         <file>res/images/project-preferences.png</file>
         <file>res/images/project-save.png</file>
+        <file>res/images/project-scene.png</file>
+        <file>res/images/project-search.png</file>
         <file>res/images/scene-add.png</file>
         <file>res/images/scene-audio.png</file>
         <file>res/images/scene-bounds.png</file>
@@ -81,6 +83,7 @@
         <file>res/images/scene-texture.png</file>
         <file>res/images/scene-transform.png</file>
         <file>res/images/scene-video.png</file>
+        <file>res/images/scene.png</file>
         <file>res/images/toolbar-move.png</file>
         <file>res/images/toolbar-orbit.png</file>
         <file>res/images/toolbar-pan.png</file>

@@ -58,7 +58,8 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     SAFE_DELETE(configWriter);
 
     // Create an empty scene.
-    Scene* scene = Scene::create(project->_scene.c_str());
+    std::string id = SCENE_NEW;
+    Scene* scene = Scene::create(id.c_str());
     float aspectRatio = (float)config.width / (float)config.height;
     Camera* camera = Camera::createPerspective(45.0f, aspectRatio, 1.0f, 10.0f);
     Node* cameraNode = scene->addNode("camera");
@@ -139,7 +140,7 @@ QVariant Project::data(const QModelIndex& index, int role) const
                         if(info.suffix() == "config")
                             return QPixmap(":/res/images/project-config.png");
                         else if(info.suffix() == "scene")
-                            return QPixmap(":/res/images/scene-hierarchy.png");
+                            return QPixmap(":/res/images/project-scene.png");
                     }
                 }
             }

@@ -6,6 +6,7 @@ using namespace gameplay;
 
 #include "EditorWindow.h"
 #include <QWidget>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class SceneView;
@@ -33,6 +34,9 @@ public slots:
     void sceneChanged();
     
 private:
+
+    void visitNodeAddItem(Node* parent, QTreeWidgetItem* parentItem);
+
     Ui::SceneView* _ui;
     EditorWindow* _editor;
     Scene* _scene;

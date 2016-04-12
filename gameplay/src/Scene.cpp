@@ -476,27 +476,28 @@ const char* Scene::getSerializedClassName() const
 
 void Scene::serialize(Serializer* serializer)
 {
+    serializer->writeString("id", _id.c_str(), "");
+    serializer->writeColor("ambientColor", _ambientColor, Vector3::zero());
     serializer->writeObjectList("nodes", _nodeCount);
     for (Node* node = getFirstNode(); node != NULL; node = node->getNextSibling())
     {
         serializer->writeObject(NULL, node);
     }
     serializer->writeObject("activeCamera", _activeCamera);
-    serializer->writeColor("ambientColor", _ambientColor, Vector3::zero());
 }
 
 void Scene::deserialize(Serializer* serializer)
 {
+    serializer->readString("id", _id, "");
+    _ambientColor = serializer->readColor("ambientColor", Vector3::zero());
     unsigned int count = serializer->readObjectList("nodes");
     for (unsigned int i = 0; i < count; i++)
     {
-        Node* node = dynamic_cast<Node*>(serializer->readObject(NULL));
+        Node* node = static_cast<Node*>(serializer->readObject(NULL));
         if (node)
-        {
             addNode(node);
-        }
     }
-    _activeCamera = dynamic_cast<Camera*>(serializer->readObject("activeCamera"));
-    _ambientColor = serializer->readColor("ambientColor", Vector3::zero());
+    _activeCamera = static_cast<Camera*>(serializer->readObject("activeCamera"));
 }
+
 }

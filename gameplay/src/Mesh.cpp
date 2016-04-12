@@ -11,14 +11,14 @@ namespace gameplay
 Mesh::Mesh() :
     _primitiveType(TRIANGLES),
     _vertexCount(0), _vertexBuffer(0),
-    _partCount(0), _parts(NULL), _dynamic(false)
+    _partCount(0), _parts(nullptr), _dynamic(false)
 {
 }
 
 Mesh::Mesh(const VertexFormat& vertexFormat) :
     _primitiveType(TRIANGLES), _vertexFormat(vertexFormat),
     _vertexCount(0), _vertexBuffer(0),
-    _partCount(0), _parts(NULL), _dynamic(false)
+    _partCount(0), _parts(nullptr), _dynamic(false)
 {
 }
 
@@ -45,7 +45,7 @@ Mesh* Mesh::createMesh(const VertexFormat& vertexFormat, unsigned int vertexCoun
     GLuint vbo;
     GL_ASSERT( glGenBuffers(1, &vbo) );
     GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, vbo) );
-    GL_ASSERT( glBufferData(GL_ARRAY_BUFFER, vertexFormat.getVertexSize() * vertexCount, NULL, dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW) );
+    GL_ASSERT( glBufferData(GL_ARRAY_BUFFER, vertexFormat.getVertexSize() * vertexCount, nullptr, dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW) );
 
     Mesh* mesh = new Mesh(vertexFormat);
     mesh->_vertexCount = vertexCount;
@@ -61,14 +61,13 @@ Mesh* Mesh::createQuad(float x, float y, float width, float height, float s1, fl
     float x2 = x + width;
     float y2 = y + height;
 
-    float vertexData[] =
+    float vertices[] =
     {
         x, y2, 0,   0, 0, 1,    s1, t2,
         x, y, 0,    0, 0, 1,    s1, t1,
         x2, y2, 0,  0, 0, 1,    s2, t2,
         x2, y, 0,   0, 0, 1,    s2, t1,
     };
-
     VertexFormat::Element elements[] =
     {
         VertexFormat::Element(VertexFormat::POSITION, 3),
@@ -76,14 +75,13 @@ Mesh* Mesh::createQuad(float x, float y, float width, float height, float s1, fl
         VertexFormat::Element(VertexFormat::TEXCOORD0, 2)
     };
     Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 3), 4, false);
-    if (mesh == NULL)
+    if (mesh == nullptr)
     {
         GP_ERROR("Failed to create mesh.");
-        return NULL;
+        return nullptr;
     }
-
     mesh->_primitiveType = TRIANGLE_STRIP;
-    mesh->setVertexData(vertexData, 0, 4);
+    mesh->setVertexData(vertices, 0, 4);
 
     return mesh;
 }
@@ -95,28 +93,26 @@ Mesh* Mesh::createQuadFullscreen()
     float x2 = 1.0f;
     float y2 = 1.0f;
 
-    float vertexData[] =
+    float vertices[] =
     {
         x, y2,   0, 1,
         x, y,    0, 0,
         x2, y2,  1, 1,
         x2, y,   1, 0
     };
-
     VertexFormat::Element elements[] =
     {
         VertexFormat::Element(VertexFormat::POSITION, 2),
         VertexFormat::Element(VertexFormat::TEXCOORD0, 2)
     };
     Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 2), 4, false);
-    if (mesh == NULL)
+    if (mesh == nullptr)
     {
         GP_ERROR("Failed to create mesh.");
-        return NULL;
+        return nullptr;
     }
-
     mesh->_primitiveType = TRIANGLE_STRIP;
-    mesh->setVertexData(vertexData, 0, 4);
+    mesh->setVertexData(vertices, 0, 4);
 
     return mesh;
 }
@@ -130,30 +126,27 @@ Mesh* Mesh::createQuad(const Vector3& p1, const Vector3& p2, const Vector3& p3, 
     Vector3::cross(v1, v2, &n);
     n.normalize();
 
-    float vertexData[] =
+    float vertices[] =
     {
         p1.x, p1.y, p1.z, n.x, n.y, n.z, 0, 1,
         p2.x, p2.y, p2.z, n.x, n.y, n.z, 0, 0,
         p3.x, p3.y, p3.z, n.x, n.y, n.z, 1, 1,
         p4.x, p4.y, p4.z, n.x, n.y, n.z, 1, 0
     };
-
     VertexFormat::Element elements[] =
     {
         VertexFormat::Element(VertexFormat::POSITION, 3),
         VertexFormat::Element(VertexFormat::NORMAL, 3),
         VertexFormat::Element(VertexFormat::TEXCOORD0, 2)
     };
-
     Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 3), 4, false);
-    if (mesh == NULL)
+    if (mesh == nullptr)
     {
         GP_ERROR("Failed to create mesh.");
-        return NULL;
+        return nullptr;
     }
-
     mesh->_primitiveType = TRIANGLE_STRIP;
-    mesh->setVertexData(vertexData, 0, 4);
+    mesh->setVertexData(vertices, 0, 4);
 
     return mesh;
 }
@@ -163,25 +156,24 @@ Mesh* Mesh::createLines(Vector3* points, unsigned int pointCount)
     GP_ASSERT(points);
     GP_ASSERT(pointCount);
 
-    float* vertexData = new float[pointCount*3];
-    memcpy(vertexData, points, pointCount*3*sizeof(float));
+    float* vertices = new float[pointCount*3];
+    memcpy(vertices, points, pointCount*3*sizeof(float));
 
     VertexFormat::Element elements[] =
     {
         VertexFormat::Element(VertexFormat::POSITION, 3)
     };
     Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 1), pointCount, false);
-    if (mesh == NULL)
+    if (mesh == nullptr)
     {
         GP_ERROR("Failed to create mesh.");
-        SAFE_DELETE_ARRAY(vertexData);
-        return NULL;
+        SAFE_DELETE_ARRAY(vertices);
+        return nullptr;
     }
-
     mesh->_primitiveType = LINE_STRIP;
-    mesh->setVertexData(vertexData, 0, pointCount);
+    mesh->setVertexData(vertices, 0, pointCount);
 
-    SAFE_DELETE_ARRAY(vertexData);
+    SAFE_DELETE_ARRAY(vertices);
     return mesh;
 }
 
@@ -190,7 +182,7 @@ Mesh* Mesh::createBoundingBox(const BoundingBox& box)
     Vector3 corners[8];
     box.getCorners(corners);
 
-    float vertexData[] =
+    float vertices[] =
     {
         corners[7].x, corners[7].y, corners[7].z,
         corners[6].x, corners[6].y, corners[6].z,
@@ -211,22 +203,237 @@ Mesh* Mesh::createBoundingBox(const BoundingBox& box)
         corners[6].x, corners[6].y, corners[6].z,
         corners[5].x, corners[5].y, corners[5].z
     };
-
     VertexFormat::Element elements[] =
     {
         VertexFormat::Element(VertexFormat::POSITION, 3)
     };
     Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 1), 18, false);
-    if (mesh == NULL)
+    if (mesh == nullptr)
     {
         GP_ERROR("Failed to create mesh.");
-        return NULL;
+        return nullptr;
     }
-
     mesh->_primitiveType = LINE_STRIP;
-    mesh->setVertexData(vertexData, 0, 18);
+    mesh->setVertexData(vertices, 0, 18);
 
     return mesh;
+}
+
+Mesh* Mesh::createCube()
+{
+    static float vertices[] =
+    {
+        // Face front (A,B,C,D)
+        -0.5f,-0.5f, 0.5f,      0.0f, 0.0f, 1.0f,       0.0f, 0.0f,     // A
+        -0.5f,-0.5f, 0.5f,      0.0f, 0.0f, 1.0f,       1.0f, 0.0f,     // B
+         0.5f, 0.5f, 0.5f,      0.0f, 0.0f, 1.0f,       1.0f, 1.0f,     // C
+        -0.5f, 0.5f, 0.5f,      0.0f, 0.0f, 1.0f,       0.0f, 1.0f,     // D
+        // Face back (E,H,G,F)
+        -0.5f,-0.5f,-0.5f,      0.0f, 0.0f,-1.0f,       1.0f, 0.0f,     // E
+        -0.5f, 0.5f,-0.5f,      0.0f, 0.0f,-1.0f,       0.0f, 0.0f,     // H
+         0.5f, 0.5f,-0.5f,      0.0f, 0.0f,-1.0f,       0.0f, 1.0f,     // G
+         0.5f,-0.5f,-0.5f,      0.0f, 0.0f,-1.0f,       1.0f, 1.0f,     // F
+        // Face left (E,A,D,H)
+        -0.5f,-0.5f,-0.5f,     -1.0f, 0.0f, 0.0f,       1.0f, 0.0f,		// E
+        -0.5f,-0.5f, 0.5f,     -1.0f, 0.0f, 0.0f,       0.0f, 0.0f,     // A
+        -0.5f, 0.5f, 0.5f,     -1.0f, 0.0f, 0.0f,       0.0f, 1.0f,     // D
+        -0.5f, 0.5f,-0.5f,     -1.0f, 0.0f, 0.0f,       1.0f, 1.0f,     // H
+        // Face right (B,F,G,C)
+         0.5f,-0.5f, 0.5f,      1.0f, 0.0f, 0.0f,		1.0f, 0.0f,		// B
+         0.5f,-0.5f,-0.5f,      1.0f, 0.0f, 0.0f,       0.0f, 0.0f,     // F
+         0.5f, 0.5f,-0.5f,		1.0f, 0.0f, 0.0f,       0.0f, 1.0f,     // G
+         0.5f, 0.5f, 0.5f,		1.0f, 0.0f, 0.0f,       1.0f, 1.0f,     // C
+        // Face top (D,C,G,H)
+        -0.5f, 0.5f, 0.5f,      0.0f, 1.0f, 0.0f,       0.0f, 1.0f,     // D
+         0.5f, 0.5f, 0.5f,      0.0f, 1.0f, 0.0f,       1.0f, 1.0f,     // C
+         0.5f, 0.5f,-0.5f,      0.0f, 1.0f, 0.0f,       1.0f, 0.0f,     // G
+        -0.5f, 0.5f,-0.5f,      0.0f, 1.0f, 0.0f,   	0.0f, 0.0f,     // H
+        // Face down (A,E,F,B)
+        -0.5f,-0.5f,0.5f,       0.0f,-1.0f, 0.0f,       0.0f, 0.0f,     // A
+        -0.5f,-0.5f,-0.5f,      0.0f,-1.0f, 0.0f,       1.0f, 0.0f,     // E
+         0.5f,-0.5f,-0.5f,      0.0f,-1.0f, 0.0f,       1.0f, 1.0f,     // F
+         0.5f,-0.5f,0.5f,       0.0f,-1.0f, 0.0f,       0.0f, 1.0f      // B
+    };
+    VertexFormat::Element elements[] =
+    {
+        VertexFormat::Element(VertexFormat::POSITION, 3),
+        VertexFormat::Element(VertexFormat::NORMAL, 3),
+        VertexFormat::Element(VertexFormat::TEXCOORD0, 2)
+    };
+    Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 3), 24, false);
+    if (mesh == nullptr)
+    {
+        GP_ERROR("Failed to create mesh.");
+        return nullptr;
+    }
+    mesh->_primitiveType = PrimitiveType::TRIANGLES;
+    mesh->setVertexData((void*)vertices, 0, 24);
+    // MeshPart
+    static unsigned char indices[] =
+    {
+        0,1,2,          0,2,3,          // Face front
+        4,5,6,          4,6,7,          // Face back
+        8,9,10,         8,10,11,        // Face left
+        12,13,14,		12,14,15,       // Face right
+        16,17,18,		16,18,19,       // Face top
+        20,21,22,		20,22,23        // Face down
+    };
+    MeshPart* part = mesh->addPart(PrimitiveType::TRIANGLES, IndexFormat::INDEX16, 12, false);
+    part->setIndexData((void*)indices, 0, 12);
+
+    return mesh;
+}
+
+Mesh* Mesh::createCylinder(unsigned int divs)
+{
+    unsigned int vertexCount = (divs + 1) * 2;
+    VertexFormat::Element elements[] =
+    {
+        VertexFormat::Element(VertexFormat::POSITION, 3),
+        VertexFormat::Element(VertexFormat::NORMAL, 3),
+        VertexFormat::Element(VertexFormat::TEXCOORD0, 2)
+    };
+    Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 3), vertexCount, false);
+    if (mesh == nullptr)
+    {
+        GP_ERROR("Failed to create mesh.");
+        return nullptr;
+    }
+    mesh->_primitiveType = PrimitiveType::TRIANGLES;
+
+    float height = 0.0;
+    float angle = 0.0;
+    float angleIncrement = 20.0f * M_PI / divs;
+    unsigned int vertexSize = mesh->getVertexSize();
+    float* vertices = new float[vertexCount * vertexSize];
+    for(unsigned int j = 0; j <= 1; j++, height += 2.0f)
+    {
+        for (unsigned int i = 0; i <= divs; i++, angle += angleIncrement)
+        {
+            float cosPt = std::cosf(angle);
+            float sinPt = std::sinf(angle);
+            unsigned int offset = vertexSize * j * (divs + 1) + vertexSize * i;
+            // Position
+            vertices[offset]   = 1.0f * cosPt;
+            vertices[offset+1] = height;
+            vertices[offset+2] = 1.0f * sinPt;
+            // Normal
+            vertices[offset+3] = cosPt;
+            vertices[offset+4] = 0.0;
+            vertices[offset+5] = sinPt;
+            // TexCoord
+            vertices[offset+6] = i / (float)divs;
+            vertices[offset+7] = j / (float)2.0f;
+        }
+    }
+    mesh->setVertexData((void*)vertices, 0, vertexCount);
+    SAFE_DELETE_ARRAY(vertices);
+    // MeshPart
+    unsigned int primitiveCount = divs * 2;
+    unsigned char* indices = new unsigned char[3 * primitiveCount];
+    for(unsigned int  j = 0; j < 1.0f; j++)
+    {
+        for (unsigned int i = 0; i < divs; i++)
+        {
+            unsigned int offset = j * divs * 6 + 6 * i;
+
+            indices[offset]   = j * (divs + 1) + i;                 // A
+            indices[offset+1] = j * (divs + 1) + (i + 1);           // B
+            indices[offset+2] = (j + 1) * (divs + 1) + i;           // C
+
+            indices[offset+3] = (j + 1) * (divs + 1) + i;           // C
+            indices[offset+4] = j * (divs + 1) + (i + 1);           // B
+            indices[offset+5] = (j + 1) * (divs + 1) + (i + 1);     // D
+        }
+    }
+    MeshPart* part = mesh->addPart(PrimitiveType::TRIANGLES, IndexFormat::INDEX16, primitiveCount, false);
+    part->setIndexData((void*)indices, 0, primitiveCount);
+
+    return mesh;
+}
+
+Mesh* Mesh::createCone(unsigned int divs)
+{
+    unsigned int vertexCount = (divs + 1) * 2;
+    VertexFormat::Element elements[] =
+    {
+        VertexFormat::Element(VertexFormat::POSITION, 3),
+        VertexFormat::Element(VertexFormat::NORMAL, 3),
+        VertexFormat::Element(VertexFormat::TEXCOORD0, 2)
+    };
+    Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 3), vertexCount, false);
+    if (mesh == nullptr)
+    {
+        GP_ERROR("Failed to create mesh.");
+        return nullptr;
+    }
+    mesh->_primitiveType = PrimitiveType::TRIANGLE_STRIP;
+
+    float angle = 0;
+    float angleIncr = 2.0f * M_PI / divs;
+    float angleToPlaneXZ = atan(2.0f / 1.0f);
+    float cosToXZ = std::cosf(angleToPlaneXZ);
+    float sinToXZ = std::sinf(angleToPlaneXZ);
+    unsigned int vertexSize = mesh->getVertexSize();
+    float* vertices = new float[vertexCount * vertexSize];
+    for ( unsigned int i = 0; i <= divs; i++, angle += angleIncr)
+    {
+        float cosPt = std::cosf(angle);
+        float sinPt = std::sinf(angle);
+        unsigned int offset = vertexSize * i * 2;
+
+        // Position
+        vertices[offset]   = 1.0f * cosPt;
+        vertices[offset+1] = 0.0;
+        vertices[offset+2] = 1.0f * sinPt;
+        // Normal
+        vertices[offset+3  ] = cosPt * sinToXZ;
+        vertices[offset+4] = cosToXZ;
+        vertices[offset+5] = sinPt * cosToXZ;
+        // TexCoord
+        vertices[offset+6] = (float)(i / divs);
+        vertices[offset+7] = 0.0;
+
+        // Position
+        vertices[offset+8] = 0.0;
+        vertices[offset+9] = 2.0f;
+        vertices[offset+10] = 0.0;
+        // Normal
+        vertices[offset+11] = cosPt * sinToXZ;
+        vertices[offset+12] = cosToXZ;
+        vertices[offset+13] = sinPt * cosToXZ;
+        // TexCoord
+        vertices[offset+14] = (float)(i / divs);
+        vertices[offset+15] = 1.0;
+    }
+    mesh->setVertexData((void*)vertices, 0, vertexCount);
+    SAFE_DELETE_ARRAY(vertices);
+
+    return mesh;
+}
+
+Mesh* Mesh::createSphere(unsigned int divs)
+{
+    /*unsigned int vertexCount = (divs + 1) * 2;
+    VertexFormat::Element elements[] =
+    {
+        VertexFormat::Element(VertexFormat::POSITION, 3),
+        VertexFormat::Element(VertexFormat::NORMAL, 3),
+        VertexFormat::Element(VertexFormat::TEXCOORD0, 2)
+    };
+    Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 3), vertexCount, false);
+    if (mesh == nullptr)
+    {
+        GP_ERROR("Failed to create mesh.");
+        return nullptr;
+    }
+    mesh->_primitiveType = PrimitiveType::TRIANGLE
+
+
+
+    return mesh;
+    */
+    return nullptr;
 }
 
 const char* Mesh::getUrl() const
@@ -281,13 +488,13 @@ bool Mesh::unmapVertexBuffer()
     return glUnmapBuffer(GL_ARRAY_BUFFER);
 }
 
-void Mesh::setVertexData(const void* vertexData, unsigned int vertexStart, unsigned int vertexCount)
+void Mesh::setVertexData(const void* vertices, unsigned int vertexStart, unsigned int vertexCount)
 {
     GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer) );
 
     if (vertexStart == 0 && vertexCount == 0)
     {
-        GL_ASSERT( glBufferData(GL_ARRAY_BUFFER, _vertexFormat.getVertexSize() * _vertexCount, vertexData, _dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW) );
+        GL_ASSERT( glBufferData(GL_ARRAY_BUFFER, _vertexFormat.getVertexSize() * _vertexCount, vertices, _dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW) );
     }
     else
     {
@@ -296,7 +503,7 @@ void Mesh::setVertexData(const void* vertexData, unsigned int vertexStart, unsig
             vertexCount = _vertexCount - vertexStart;
         }
 
-        GL_ASSERT( glBufferSubData(GL_ARRAY_BUFFER, vertexStart * _vertexFormat.getVertexSize(), vertexCount * _vertexFormat.getVertexSize(), vertexData) );
+        GL_ASSERT( glBufferSubData(GL_ARRAY_BUFFER, vertexStart * _vertexFormat.getVertexSize(), vertexCount * _vertexFormat.getVertexSize(), vertices) );
     }
 }
 
@@ -367,17 +574,17 @@ void Mesh::serialize(Serializer* serializer)
     serializer->writeInt("vertexCount", _vertexCount, 0);
     do
     {
-        void* vertexData = mapVertexBuffer();
-        serializer->writeByteArray("vertexData", (unsigned char*)vertexData, _vertexFormat.getVertexSize() * _vertexCount);
+        void* vertices = mapVertexBuffer();
+        serializer->writeByteArray("vertices", (unsigned char*)vertices, _vertexFormat.getVertexSize() * _vertexCount);
     } while(!unmapVertexBuffer());
     serializer->writeBool("dynamic", _dynamic, true);
     serializer->writeObjectList("parts", _partCount);
     for (unsigned int i = 0; i < _partCount; i++)
     {
-        serializer->writeObject(NULL, _parts[i]);
+        serializer->writeObject(nullptr, _parts[i]);
     }
-    serializer->writeObject("boundingBox", _boundingBox.isEmpty() ? NULL : &_boundingBox);
-    serializer->writeObject("boundingSphere", _boundingSphere.isEmpty() ? NULL : &_boundingSphere);
+    serializer->writeObject("boundingBox", _boundingBox.isEmpty() ? nullptr : &_boundingBox);
+    serializer->writeObject("boundingSphere", _boundingSphere.isEmpty() ? nullptr : &_boundingSphere);
 }
 
 void Mesh::deserialize(Serializer* serializer)
@@ -386,24 +593,24 @@ void Mesh::deserialize(Serializer* serializer)
     _primitiveType = static_cast<Mesh::PrimitiveType>(serializer->readEnum("primitiveType", "gameplay::Mesh::PrimitiveType", Mesh::TRIANGLES));
     serializer->readObject("vertexFormat", &_vertexFormat);
     _vertexCount = serializer->readInt("vertexCount", 0);
-    unsigned char* vertexData = new unsigned char[_vertexFormat.getVertexSize() * _vertexCount];
-    serializer->readByteArray("vertexData", &vertexData);
+    unsigned char* vertices = new unsigned char[_vertexFormat.getVertexSize() * _vertexCount];
+    serializer->readByteArray("vertices", &vertices);
     _dynamic = serializer->readBool("dynamic", true);
     
     GLuint vbo;
     GL_ASSERT(glGenBuffers(1, &vbo));
     GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, vbo));
-    GL_ASSERT(glBufferData(GL_ARRAY_BUFFER, _vertexFormat.getVertexSize() * _vertexCount, NULL, _dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
+    GL_ASSERT(glBufferData(GL_ARRAY_BUFFER, _vertexFormat.getVertexSize() * _vertexCount, nullptr, _dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
     
     _vertexBuffer = vbo;
-    setVertexData((void*)vertexData, 0, _vertexCount);
-    SAFE_DELETE_ARRAY(vertexData);
+    setVertexData((void*)vertices, 0, _vertexCount);
+    SAFE_DELETE_ARRAY(vertices);
     
     _partCount = serializer->readObjectList("parts");
     _parts = new MeshPart*[_partCount];
     for (unsigned int i = 0; i < _partCount; i++)
     {
-        _parts[i] = dynamic_cast<MeshPart*>(serializer->readObject(NULL));
+        _parts[i] = dynamic_cast<MeshPart*>(serializer->readObject(nullptr));
         _parts[i]->_mesh = this;
         _parts[i]->_meshIndex = i;
     }
@@ -433,7 +640,7 @@ const char* Mesh::enumToString(const char* enumName, int value)
             case Mesh::POINTS:
                 return "POINTS";
             default:
-                return NULL;
+                return nullptr;
         }
     }
     else if (std::strcmp("gameplay::Mesh::IndexFormat", enumName) == 0)
@@ -447,10 +654,10 @@ const char* Mesh::enumToString(const char* enumName, int value)
             case Mesh::INDEX32:
                 return "INDEX32";
             default:
-                return NULL;
+                return nullptr;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 int Mesh::enumParse(const char* enumName, const char* str)

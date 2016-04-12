@@ -1276,10 +1276,14 @@ void Node::deserialize(Serializer* serializer)
     setRotation(rotation);
     Vector3 scale = serializer->readVector("scale", Vector3::one());
     setScale(scale);
-    setDrawable(dynamic_cast<Drawable*>(serializer->readObject("drawable")));
-    //_collidable =  dynamic_cast<Collidable*>(serializer->readObject("collidable"));
-    setCamera(dynamic_cast<Camera*>(serializer->readObject("camera")));
-    setLight(dynamic_cast<Light*>(serializer->readObject("light")));
+    Serializable* drawable = serializer->readObject("drawable");
+    Model* model = dynamic_cast<Model*>(drawable);
+    if (model)
+        setDrawable(model);
+    Camera* camera = static_cast<Camera*>(serializer->readObject("camera"));
+    setCamera(camera);
+    Light* light = static_cast<Light*>(serializer->readObject("light"));
+    setLight(light);
     
     // TODO:
     // Audio
@@ -1291,7 +1295,7 @@ void Node::deserialize(Serializer* serializer)
     _childCount = serializer->readObjectList("children");
     for (unsigned int i = 0; _childCount; i++)
     {
-        Node* child = dynamic_cast<Node*>(serializer->readObject(NULL));
+        Node* child = static_cast<Node*>(serializer->readObject(NULL));
         if (child)
         {
             addChild(child);

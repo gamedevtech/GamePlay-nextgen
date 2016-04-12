@@ -136,6 +136,40 @@ public:
     static Mesh* createBoundingBox(const BoundingBox& box);
 
     /**
+     * Creates a cube mesh with a unit size of 1.
+     *
+     * @return Cube mesh.
+     */
+    static Mesh* createCube();
+
+    /**
+     * Creates a cylinder mesh with a radius of 1 and height of 2.
+     *
+     * @param divs The number of segment divisions around the cylinder.
+     *
+     * @return Cylinder mesh.
+     */
+    static Mesh* createCylinder(unsigned int divs = 64);
+
+    /**
+     * Creates a cone mesh with a radius of 1 and height of 2.
+     *
+     * @param divs The number of segment divisions around the
+     *
+     * @return Cone mesh.
+     */
+    static Mesh* createCone(unsigned int divs = 64);
+
+    /**
+     * Creates a sphere mesh with a radius of 1.
+     *
+     * @param divs The number of segment divisions around the sphere.
+     *
+     * @return Sphere mesh.
+     */
+    static Mesh* createSphere(unsigned int divs = 64);
+
+    /**
      * Returns a URL from which the mesh was loaded from.
      *
      * For meshes loaded from a Bundle, this URL will point

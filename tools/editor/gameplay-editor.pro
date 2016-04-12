@@ -19,7 +19,8 @@ SOURCES +=  src/main.cpp\
     src/PropertiesView.cpp \
     src/ProjectWizard.cpp \
     src/ProjectWizardItemDelegate.cpp \
-    src/Project.cpp
+    src/Project.cpp \
+    src/GizmoGrid.cpp
 
 HEADERS +=  src/EditorWindow.h \
     src/ProjectTreeView.h \
@@ -29,7 +30,9 @@ HEADERS +=  src/EditorWindow.h \
     src/GameView.h \
     src/ProjectWizard.h \
     src/ProjectWizardItemDelegate.h \
-    src/Project.h
+    src/Project.h \
+    src/GizmoGrid.h \
+    src/Gizmo.h
 
 FORMS +=    src/EditorWindow.ui \
     src/ProjectView.ui \

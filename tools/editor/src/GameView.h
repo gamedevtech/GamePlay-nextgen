@@ -64,37 +64,37 @@ protected:
     /**
      * @see QOpenGLWidget::initializeGL
      */
-    void initializeGL() Q_DECL_OVERRIDE;
+    void initializeGL();
 
     /**
      * @see QOpenGLWidget::resizeGL
      */
-    void resizeGL(int width, int height) Q_DECL_OVERRIDE;
+    void resizeGL(int width, int height);
 
     /**
      * @see QOpenGLWidget::paintGL
      */
-    void paintGL() Q_DECL_OVERRIDE;
+    void paintGL();
 
     /**
      * @see QWidget::mousePressEvent
      */
-    void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent* event);
 
     /**
      * @see QWidget::mouseReleaseEvent
      */
-    void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent* event);
 
     /**
      * @see QWidget::keyPressEvent
      */
-    void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent* event);
 
     /**
      * @see QWidget::keyReleaseEvent
      */
-    void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent* event);
 
     /**
      * Draws the active scene.

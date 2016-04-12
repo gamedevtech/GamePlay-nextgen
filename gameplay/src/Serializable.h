@@ -19,7 +19,7 @@ public:
     /**
      * Destructor
      */
-    virtual ~Serializable() { };
+    virtual ~Serializable() { }
     
     /**
      * Gets serialized class name string represenation for the object.

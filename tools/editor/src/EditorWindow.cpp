@@ -141,6 +141,7 @@ EditorWindow::EditorWindow(QWidget* parent) :
     connect(_ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(actionOpenTriggered()));
     connect(_ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(actionNewTriggered()));
     connect(_projectView, SIGNAL(sceneOpened(QString)), this, SLOT(sceneOpened(QString)));
+
     connect(this, SIGNAL(sceneChanged()), _sceneView, SLOT(sceneChanged()));
     connect(this, SIGNAL(sceneChanged()), _gameView, SLOT(sceneChanged()));
 }
