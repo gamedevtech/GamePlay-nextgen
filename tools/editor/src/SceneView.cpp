@@ -21,21 +21,30 @@ void SceneView::sceneChanged()
 {
     _scene = _editor->scene();
     _ui->treeWidget->clear();
+    connect(_ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*, int )), this, SLOT(itemChanged(QTreeWidgetItem*,int)));
 
     QTreeWidgetItem* sceneItem = new QTreeWidgetItem(QTreeWidgetItem::Type);
-    QString sceneText(tr("Scene"));
-    sceneItem->setText(0, sceneText);
+    sceneItem->setText(0, tr("Scene"));
     sceneItem->setIcon(0, QIcon(":/res/images/scene.png"));
     _ui->treeWidget->addTopLevelItem(sceneItem);
 
     for (Node* node = _scene->getFirstNode(); node != NULL; node = node->getNextSibling())
     {
         QTreeWidgetItem* nodeItem = new QTreeWidgetItem(QTreeWidgetItem::Type);
-        QString nodeText(tr("Node"));
+        QString nodeText;
+        const char* nodeId = node->getId();
+        if (nodeId && strlen(nodeId) > 0)
+            nodeText = QString(nodeId);
+        else
+            nodeText = QString(tr("Node"));
+
         nodeItem->setText(0, nodeText);
         nodeItem->setIcon(0, QIcon(":/res/images/scene-node.png"));
-        sceneItem->addChild(nodeItem);
+        nodeItem->setFlags(nodeItem->flags() | Qt::ItemIsEditable);
+        // Associate the node to the item
+        nodeItem->setData(0, Qt::UserRole, QVariant::fromValue((qlonglong)node));
 
+        sceneItem->addChild(nodeItem);
         visitNodeAddItem(node, nodeItem);
     }
     sceneItem->setExpanded(true);
@@ -43,14 +52,30 @@ void SceneView::sceneChanged()
 
 void SceneView::visitNodeAddItem(Node* parent, QTreeWidgetItem* parentItem)
 {
-    for (Node* child = parent->getFirstChild(); child != NULL; child = child->getNextSibling())
+    for (Node* node = parent->getFirstChild(); node != NULL; node = node->getNextSibling())
     {
-        QTreeWidgetItem* item = new QTreeWidgetItem(QTreeWidgetItem::Type);
-        QString nodeText(tr("Node"));
-        item->setText(0, nodeText);
-        item->setIcon(0, QIcon(":/res/images/scene-node.png"));
-        parentItem->addChild(item);
+        QTreeWidgetItem* nodeItem = new QTreeWidgetItem(QTreeWidgetItem::Type);
+        QString nodeText;
+        const char* nodeId = node->getId();
+        if (nodeId && strlen(nodeId) > 0)
+            nodeText = QString(nodeId);
+        else
+            nodeText = QString(tr("Node"));
 
-        visitNodeAddItem(child, item);
+        nodeItem->setText(0, nodeText);
+        nodeItem->setIcon(0, QIcon(":/res/images/scene-node.png"));
+        nodeItem->setFlags(nodeItem->flags() | Qt::ItemIsEditable);
+        // Associate the node to the item
+        nodeItem->setData(0, Qt::UserRole, QVariant::fromValue((qlonglong)node));
+
+        parentItem->addChild(nodeItem);
+        visitNodeAddItem(node, nodeItem);
     }
+}
+
+void SceneView::itemChanged(QTreeWidgetItem* item, int column)
+{
+    QVariant data = item->data(0, Qt::UserRole);
+    Node* node = (Node*) data.toLongLong();
+    node->setId((item->text(0)).toLatin1().constData());
 }

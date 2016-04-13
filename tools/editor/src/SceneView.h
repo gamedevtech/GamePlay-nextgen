@@ -40,6 +40,11 @@ public slots:
      * Handler when the scene changes.
      */
     void sceneChanged();
+
+    /**
+     * @see QTreeWidget::itemChanged
+     */
+    static void itemChanged(QTreeWidgetItem* item, int column);
     
 private:
     void visitNodeAddItem(Node* parent, QTreeWidgetItem* parentItem);

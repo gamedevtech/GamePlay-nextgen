@@ -6,6 +6,7 @@
 #define RESOURCE_DIR "res"
 #define SCENE_NEW "scene1"
 #define SCENE_EXT ".scene"
+#define CAMERA_NEW "camera1"
 
 bool Project::_serializerActivated = false;
 
@@ -62,7 +63,7 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     Scene* scene = Scene::create(id.c_str());
     float aspectRatio = (float)config.width / (float)config.height;
     Camera* camera = Camera::createPerspective(45.0f, aspectRatio, 1.0f, 10.0f);
-    Node* cameraNode = scene->addNode("camera");
+    Node* cameraNode = scene->addNode(CAMERA_NEW);
     cameraNode->setCamera(camera);
     scene->setActiveCamera(camera);
     SAFE_RELEASE(camera);
