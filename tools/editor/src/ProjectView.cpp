@@ -9,6 +9,8 @@ ProjectView::ProjectView(QWidget* parent) : QWidget(parent),
 {
     _ui->setupUi(this);
 
+    _ui->lineEditSearch->addAction(QIcon(":/res/images/search.png"), QLineEdit::LeadingPosition);
+
     connect(_ui->projectTreeView, SIGNAL(doubleClicked(QModelIndex)), _ui->projectTreeView, SLOT(itemDoubleClicked(QModelIndex)));
     connect(_ui->actionOpen_File, SIGNAL(triggered(bool)), _ui->projectTreeView, SLOT(openFileTriggered()));
 }

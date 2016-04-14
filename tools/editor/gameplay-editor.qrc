@@ -55,7 +55,6 @@
         <file>res/images/project-preferences.png</file>
         <file>res/images/project-save.png</file>
         <file>res/images/project-scene.png</file>
-        <file>res/images/project-search.png</file>
         <file>res/images/scene-add.png</file>
         <file>res/images/scene-audio.png</file>
         <file>res/images/scene-bounds.png</file>
@@ -84,15 +83,17 @@
         <file>res/images/scene-transform.png</file>
         <file>res/images/scene-video.png</file>
         <file>res/images/scene.png</file>
-        <file>res/images/toolbar-move.png</file>
-        <file>res/images/toolbar-orbit.png</file>
-        <file>res/images/toolbar-pan.png</file>
-        <file>res/images/toolbar-rotate.png</file>
-        <file>res/images/toolbar-scale.png</file>
-        <file>res/images/toolbar-select.png</file>
-        <file>res/images/toolbar-zoom.png</file>
+        <file>res/images/search.png</file>
+        <file>res/images/shading-lit.png</file>
+        <file>res/images/shading-unlit.png</file>
+        <file>res/images/shading-wireframe.png</file>
+        <file>res/images/show-grid.png</file>
+        <file>res/images/transform-mode-local.png</file>
+        <file>res/images/transform-mode-world.png</file>
+        <file>res/images/transform-move.png</file>
+        <file>res/images/transform-rotate.png</file>
+        <file>res/images/transform-scale.png</file>
         <file>res/images/view-fullscreen.png</file>
-        <file>res/images/view-grid.png</file>
         <file>res/images/wizard-open.png</file>
         <file>res/images/wizard-new.png</file>
         <file>res/shaders/colored.frag</file>

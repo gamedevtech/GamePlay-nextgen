@@ -47,6 +47,7 @@ public slots:
     static void itemChanged(QTreeWidgetItem* item, int column);
     
 private:
+    QTreeWidgetItem* createTreeItem(Node* node);
     void visitNodeAddItem(Node* parent, QTreeWidgetItem* parentItem);
 
     Ui::SceneView* _ui;

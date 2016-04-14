@@ -5,6 +5,7 @@
 using namespace gameplay;
 
 #include <QMainWindow>
+#include <QToolButton>
 
 namespace Ui {
 class EditorWindow;
@@ -89,6 +90,38 @@ public slots:
      */
     void actionNewTriggered();
 
+    /**
+     * Action when actionFullscreen is toggled.
+     *
+     * @param enabled true if enabled
+     */
+    void actionFullscreenToggled(bool enabled);
+
+    /**
+     * Action when transform mode world is triggered.
+     */
+    void actionTransformModeWorldTriggered();
+
+    /**
+     * Action when transform mode local is triggered.
+     */
+    void actionTransformModeLocalTriggered();
+
+    /**
+     * Action when shading lit is triggered.
+     */
+    void actionShadingLitTriggered();
+
+    /**
+     * Action when shading unlit is triggered.
+     */
+    void actionShadingUnlitTriggered();
+
+    /**
+     * Action when shading wireframe is triggered.
+     */
+    void actionShadingWireframeTriggered();
+
 signals:
     /**
      * Signal emitted when the project changes.
@@ -108,6 +141,8 @@ private:
     PropertiesView *_propertiesView;
     SceneView*_sceneView;
     Scene* _scene;
+    QToolButton* _transformModeButton;
+    QToolButton* _shadingButton;
     std::string _assetPath;
 };
 

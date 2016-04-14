@@ -4,9 +4,10 @@
 #define PROJECT_FILE "game.project"
 #define CONFIG_FILE "game.config"
 #define RESOURCE_DIR "res"
-#define SCENE_NEW "scene1"
 #define SCENE_EXT ".scene"
-#define CAMERA_NEW "camera1"
+#define SCENE_NEW "Scene"
+#define NODE_NEW "Node"
+
 
 bool Project::_serializerActivated = false;
 
@@ -61,12 +62,21 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     // Create an empty scene.
     std::string id = SCENE_NEW;
     Scene* scene = Scene::create(id.c_str());
+    // Add a perspective camera
     float aspectRatio = (float)config.width / (float)config.height;
     Camera* camera = Camera::createPerspective(45.0f, aspectRatio, 1.0f, 10.0f);
-    Node* cameraNode = scene->addNode(CAMERA_NEW);
+    Node* cameraNode = scene->addNode(NODE_NEW);
     cameraNode->setCamera(camera);
     scene->setActiveCamera(camera);
     SAFE_RELEASE(camera);
+    // Add a directional light
+    Light* light = Light::createDirectional(Vector3::one());
+    Node* lightNode = Node::create(NODE_NEW);
+    lightNode->setLight(light);
+    lightNode->setTranslation(0.0f, 0.0f, 10.0f);
+    SAFE_RELEASE(light);
+    scene->addNode(lightNode);
+
     QString sceneFilePath(path + QDir::separator() + QString(QLatin1String(RESOURCE_DIR)) +
                                  QDir::separator() + QString(QLatin1String(SCENE_NEW)) + QString(QLatin1String(SCENE_EXT)));
     QByteArray sceneFilePathByteArray = sceneFilePath.toLatin1();

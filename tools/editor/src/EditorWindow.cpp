@@ -13,7 +13,8 @@
 
 EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent), 
     _ui(new Ui::EditorWindow), _projectWizard(0), _projectView(0),
-    _gameView(0), _sceneView(0), _propertiesView(0), _scene(NULL)
+    _gameView(0), _sceneView(0), _propertiesView(0), _scene(NULL),
+    _transformModeButton(NULL), _shadingButton(NULL)
 {
     _ui->setupUi(this);
 
@@ -32,7 +33,7 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
 
     // Initialize the status bar
     QStatusBar* statusBar = this->statusBar();
-    statusBar->showMessage(tr("Input Mode: Move"));
+    statusBar->showMessage(tr("Status: Ok"));
 
     // Initialize the game view
     _gameView = new GameView(this);
@@ -67,6 +68,7 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
 
     // Initialize the toolbar
     QToolBar* toolBar = this->addToolBar(tr("Top"));
+
     toolBar->addAction(_ui->actionNew);
     toolBar->addAction(_ui->actionOpen);
     toolBar->addAction(_ui->actionSave);
@@ -76,13 +78,11 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     toolBar->addAction(_ui->actionAdd);
     toolBar->addSeparator();
     toolBar->addAction(_ui->actionPlay);
-    toolBar->addSeparator();
     toolBar->addAction(_ui->actionFullscreen);
-    toolBar->addAction(_ui->actionGrid);
 
-    // Initialize Add Xxxx toolbar buttons
+
+    // Initialize Add toolbar buttons
     QMenu* addMenu = new QMenu();
-    addMenu->setObjectName("addContextMenu");
     QToolButton* addButton = (QToolButton*)toolBar->widgetForAction(_ui->actionAdd);
     addButton->setPopupMode(QToolButton::InstantPopup);
     addButton->setMenu(addMenu);
@@ -105,18 +105,38 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
 
     // Initialize the left toolbar
     toolBar = this->addToolBar(tr("Left"));
+    toolBar->setIconSize(QSize(24,24));
     this->addToolBar(Qt::LeftToolBarArea, toolBar);
     QActionGroup* transformGroup = new QActionGroup(toolBar);
-    toolBar->addAction(_ui->actionPan);
-    _ui->actionPan->setActionGroup(transformGroup);
-    toolBar->addAction(_ui->actionMove);
-    _ui->actionMove->setActionGroup(transformGroup);
-    toolBar->addAction(_ui->actionRotate);
-    _ui->actionRotate->setActionGroup(transformGroup);
-    toolBar->addAction(_ui->actionScale);
-    _ui->actionScale->setActionGroup(transformGroup);
-    toolBar->addAction(_ui->actionSelect);
-    _ui->actionSelect->setActionGroup(transformGroup);
+    toolBar->addAction(_ui->actionTransformMove);
+    _ui->actionTransformMove->setActionGroup(transformGroup);
+    _ui->actionTransformMove->setChecked(true);
+    toolBar->addAction(_ui->actionTransformRotate);
+    _ui->actionTransformRotate->setActionGroup(transformGroup);
+    toolBar->addAction(_ui->actionTransformScale);
+    _ui->actionTransformScale->setActionGroup(transformGroup);
+    toolBar->addAction(_ui->actionTransformMode);
+    toolBar->addSeparator();
+    toolBar->addAction(_ui->actionShading);
+
+    // Initialize transform mode toolbar buttons
+    QMenu* transformModeMenu = new QMenu();
+    _transformModeButton = (QToolButton*)toolBar->widgetForAction(_ui->actionTransformMode);
+    _transformModeButton->setPopupMode(QToolButton::InstantPopup);
+    _transformModeButton->setMenu(transformModeMenu);
+    _transformModeButton->setDefaultAction(_ui->actionTransformMode_World);
+    transformModeMenu->addAction(_ui->actionTransformMode_World);
+    transformModeMenu->addAction(_ui->actionTransformMode_Local);
+
+    // Initialize Shading toolbar buttons
+    QMenu* shadingMenu = new QMenu();
+    _shadingButton = (QToolButton*)toolBar->widgetForAction(_ui->actionShading);
+    _shadingButton->setPopupMode(QToolButton::InstantPopup);
+    _shadingButton->setMenu(shadingMenu);
+    _shadingButton->setDefaultAction(_ui->actionShading_Lit);
+    shadingMenu->addAction(_ui->actionShading_Lit);
+    shadingMenu->addAction(_ui->actionShading_Unlit);
+    shadingMenu->addAction(_ui->actionShading_Wireframe);
 
     // Initialize the docking corners
     setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
@@ -138,6 +158,12 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
 
     connect(_ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(actionOpenTriggered()));
     connect(_ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(actionNewTriggered()));
+    connect(_ui->actionFullscreen, SIGNAL(toggled(bool)), this, SLOT(actionFullscreenToggled(bool)));
+    connect(_ui->actionTransformMode_World, SIGNAL(triggered()), this, SLOT(actionTransformModeWorldTriggered()));
+    connect(_ui->actionTransformMode_Local, SIGNAL(triggered()), this, SLOT(actionTransformModeLocalTriggered()));
+    connect(_ui->actionShading_Lit, SIGNAL(triggered()), this, SLOT(actionShadingLitTriggered()));
+    connect(_ui->actionShading_Unlit, SIGNAL(triggered()), this, SLOT(actionShadingUnlitTriggered()));
+    connect(_ui->actionShading_Wireframe, SIGNAL(triggered()), this, SLOT(actionShadingWireframeTriggered()));
     connect(_projectView, SIGNAL(sceneOpened(QString)), this, SLOT(sceneOpened(QString)));
 
     _sceneView->setEditor(this);
@@ -178,7 +204,8 @@ void EditorWindow::projectOpened(const QString& path)
     Project* project = _projectView->project();
     if (project)
     {
-        setWindowTitle(QString(QLatin1String(EDITOR_WINDOW_TITLE)) + QString(QLatin1String(" - ")) +
+        setWindowTitle(QString(QLatin1String(EDITOR_WINDOW_TITLE)) +
+                       QString(QLatin1String(" - ")) +
                        _projectView->project()->name());
     }
 }
@@ -202,5 +229,45 @@ void EditorWindow::actionNewTriggered()
 {
     _projectWizard->show();
     _projectWizard->newProjectPressed();
+
 }
 
+void EditorWindow::actionFullscreenToggled(bool enabled)
+{
+
+    // TODO:
+}
+
+void EditorWindow::actionTransformModeWorldTriggered()
+{
+
+    _transformModeButton->setDefaultAction(_ui->actionTransformMode_World);
+    _transformModeButton->clearFocus();
+    // TODO:
+}
+
+void EditorWindow::actionTransformModeLocalTriggered()
+{
+    _transformModeButton->setDefaultAction(_ui->actionTransformMode_Local);
+    // TODO:
+}
+
+
+void EditorWindow::actionShadingLitTriggered()
+{
+    _shadingButton->setDefaultAction(_ui->actionShading_Lit);
+    // TODO:
+}
+
+void EditorWindow::actionShadingUnlitTriggered()
+{
+
+    _shadingButton->setDefaultAction(_ui->actionShading_Unlit);
+    // TODO:
+}
+
+void EditorWindow::actionShadingWireframeTriggered()
+{
+    _shadingButton->setDefaultAction(_ui->actionShading_Wireframe);
+    // TODO:
+}

@@ -26,7 +26,7 @@
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QDockWidget" name="sceneDockWidget">
    <property name="allowedAreas">
-    <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea</set>
+    <set>Qt::BottomDockWidgetArea|Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
     <string>Scene</string>
@@ -38,7 +38,7 @@
   </widget>
   <widget class="QDockWidget" name="propertiesDockWidget">
    <property name="allowedAreas">
-    <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea</set>
+    <set>Qt::BottomDockWidgetArea|Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
     <string>Properties</string>
@@ -50,7 +50,7 @@
   </widget>
   <widget class="QDockWidget" name="projectDockWidget">
    <property name="allowedAreas">
-    <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea</set>
+    <set>Qt::BottomDockWidgetArea|Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
     <string>Project - Assets</string>
@@ -242,16 +242,25 @@
     <string>F7</string>
    </property>
   </action>
-  <action name="actionGrid">
+  <action name="actionShowGrid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../gameplay-editor.qrc">
-     <normaloff>:/res/images/view-grid.png</normaloff>:/res/images/view-grid.png</iconset>
+     <normaloff>:/res/images/show-grid.png</normaloff>:/res/images/show-grid.png</iconset>
    </property>
    <property name="text">
-    <string>View Grid</string>
+    <string>Show - Grid</string>
+   </property>
+   <property name="toolTip">
+    <string>Show - Grid</string>
    </property>
   </action>
   <action name="actionFullscreen">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../gameplay-editor.qrc">
      <normaloff>:/res/images/view-fullscreen.png</normaloff>:/res/images/view-fullscreen.png</iconset>
@@ -260,7 +269,7 @@
     <string>View Fullscreen</string>
    </property>
   </action>
-  <action name="actionMove">
+  <action name="actionTransformMove">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -269,7 +278,7 @@
    </property>
    <property name="icon">
     <iconset resource="../gameplay-editor.qrc">
-     <normaloff>:/res/images/toolbar-move.png</normaloff>:/res/images/toolbar-move.png</iconset>
+     <normaloff>:/res/images/transform-move.png</normaloff>:/res/images/transform-move.png</iconset>
    </property>
    <property name="text">
     <string>Move (W)</string>
@@ -281,13 +290,13 @@
     <string>W</string>
    </property>
   </action>
-  <action name="actionRotate">
+  <action name="actionTransformRotate">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../gameplay-editor.qrc">
-     <normaloff>:/res/images/toolbar-rotate.png</normaloff>:/res/images/toolbar-rotate.png</iconset>
+     <normaloff>:/res/images/transform-rotate.png</normaloff>:/res/images/transform-rotate.png</iconset>
    </property>
    <property name="text">
     <string>Rotate (E)</string>
@@ -299,13 +308,13 @@
     <string>E</string>
    </property>
   </action>
-  <action name="actionScale">
+  <action name="actionTransformScale">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../gameplay-editor.qrc">
-     <normaloff>:/res/images/toolbar-scale.png</normaloff>:/res/images/toolbar-scale.png</iconset>
+     <normaloff>:/res/images/transform-scale.png</normaloff>:/res/images/transform-scale.png</iconset>
    </property>
    <property name="text">
     <string>Scale (R)</string>
@@ -317,42 +326,36 @@
     <string>R</string>
    </property>
   </action>
-  <action name="actionPan">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../gameplay-editor.qrc">
-     <normaloff>:/res/images/toolbar-pan.png</normaloff>:/res/images/toolbar-pan.png</iconset>
-   </property>
+  <action name="actionTransformMode">
    <property name="text">
-    <string>Pan (Q)</string>
+    <string>Transform - Mode</string>
    </property>
    <property name="toolTip">
-    <string>Pan  (Q)</string>
+    <string>Transform - Mode</string>
    </property>
   </action>
-  <action name="actionSelect">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
+  <action name="actionTransformMode_World">
    <property name="icon">
     <iconset resource="../gameplay-editor.qrc">
-     <normaloff>:/res/images/toolbar-select.png</normaloff>:/res/images/toolbar-select.png</iconset>
+     <normaloff>:/res/images/transform-mode-world.png</normaloff>:/res/images/transform-mode-world.png</iconset>
    </property>
    <property name="text">
-    <string>Select (Left Mouse Click + Drag)</string>
+    <string>Transform - World</string>
+   </property>
+   <property name="toolTip">
+    <string>Transform - World</string>
    </property>
   </action>
-  <action name="actionSelectAll">
-   <property name="text">
-    <string>Select All</string>
+  <action name="actionTransformMode_Local">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/transform-mode-local.png</normaloff>:/res/images/transform-mode-local.png</iconset>
    </property>
-   <property name="shortcut">
-    <string>Meta+A</string>
+   <property name="text">
+    <string>Transform - Local</string>
+   </property>
+   <property name="toolTip">
+    <string>Transform - Local</string>
    </property>
   </action>
   <action name="actionAdd_Node">
@@ -545,6 +548,50 @@
    </property>
    <property name="toolTip">
     <string>Add Video</string>
+   </property>
+  </action>
+  <action name="actionShading">
+   <property name="text">
+    <string>Shading</string>
+   </property>
+   <property name="toolTip">
+    <string>Shading</string>
+   </property>
+  </action>
+  <action name="actionShading_Lit">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/shading-lit.png</normaloff>:/res/images/shading-lit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Shading - Lit</string>
+   </property>
+   <property name="toolTip">
+    <string>Shading - Lit</string>
+   </property>
+  </action>
+  <action name="actionShading_Unlit">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/shading-unlit.png</normaloff>:/res/images/shading-unlit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Shading - Unlit</string>
+   </property>
+   <property name="toolTip">
+    <string>Shading - Unlit</string>
+   </property>
+  </action>
+  <action name="actionShading_Wireframe">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/shading-wireframe.png</normaloff>:/res/images/shading-wireframe.png</iconset>
+   </property>
+   <property name="text">
+    <string>Shading - Wireframe</string>
+   </property>
+   <property name="toolTip">
+    <string>Shading - Wireframe</string>
    </property>
   </action>
  </widget>
