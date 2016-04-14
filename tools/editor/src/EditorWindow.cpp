@@ -74,7 +74,6 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     toolBar->addAction(_ui->actionSave);
     toolBar->addSeparator();
     toolBar->addAction(_ui->actionImport);
-    toolBar->addSeparator();
     toolBar->addAction(_ui->actionAdd);
     toolBar->addSeparator();
     toolBar->addAction(_ui->actionPlay);
@@ -84,7 +83,7 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     // Initialize Add toolbar buttons
     QMenu* addMenu = new QMenu();
     QToolButton* addButton = (QToolButton*)toolBar->widgetForAction(_ui->actionAdd);
-    addButton->setPopupMode(QToolButton::InstantPopup);
+    addButton->setPopupMode(QToolButton::MenuButtonPopup);
     addButton->setMenu(addMenu);
     addMenu->addAction(_ui->actionAdd_Node);
     addMenu->addAction(_ui->actionAdd_Cube);
@@ -122,7 +121,7 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     // Initialize transform mode toolbar buttons
     QMenu* transformModeMenu = new QMenu();
     _transformModeButton = (QToolButton*)toolBar->widgetForAction(_ui->actionTransformMode);
-    _transformModeButton->setPopupMode(QToolButton::InstantPopup);
+    _transformModeButton->setPopupMode(QToolButton::MenuButtonPopup);
     _transformModeButton->setMenu(transformModeMenu);
     _transformModeButton->setDefaultAction(_ui->actionTransformMode_World);
     transformModeMenu->addAction(_ui->actionTransformMode_World);
@@ -131,7 +130,7 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     // Initialize Shading toolbar buttons
     QMenu* shadingMenu = new QMenu();
     _shadingButton = (QToolButton*)toolBar->widgetForAction(_ui->actionShading);
-    _shadingButton->setPopupMode(QToolButton::InstantPopup);
+    _shadingButton->setPopupMode(QToolButton::MenuButtonPopup);
     _shadingButton->setMenu(shadingMenu);
     _shadingButton->setDefaultAction(_ui->actionShading_Lit);
     shadingMenu->addAction(_ui->actionShading_Lit);
@@ -242,8 +241,8 @@ void EditorWindow::actionTransformModeWorldTriggered()
 {
 
     _transformModeButton->setDefaultAction(_ui->actionTransformMode_World);
-    _transformModeButton->clearFocus();
-    // TODO:
+
+    // TODO
 }
 
 void EditorWindow::actionTransformModeLocalTriggered()
