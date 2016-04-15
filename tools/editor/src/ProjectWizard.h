@@ -8,9 +8,9 @@
 namespace Ui {
 class ProjectWizard;
 }
-
 class EditorWindow;
 class Project;
+
 
 /**
  * Defines a class used for selecting an existing
@@ -20,14 +20,13 @@ class Project;
 class ProjectWizard : public QDialog
 {
     Q_OBJECT
-
 public:
     /**
      * Constructor.
      *
      * @param parent The parent widget.
      */
-    explicit ProjectWizard(QWidget* parent = 0);
+    explicit ProjectWizard(QWidget* parent = nullptr);
 
     /**
      * Destructor.
@@ -88,6 +87,11 @@ public slots:
     void projectDirectoryTextChanged();
 
 signals:
+    /**
+     * Signal emitted when a project is opened.
+     *
+     * @param path The project path.
+     */
     void projectOpened(const QString& path);
 
 private:

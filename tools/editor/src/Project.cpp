@@ -7,13 +7,12 @@
 #define SCENE_EXT ".scene"
 #define SCENE_NEW "Scene"
 #define NODE_NEW "Node"
-
-
 bool Project::_serializerActivated = false;
 
-Project::Project(QObject* parent) :
-    QFileSystemModel(parent)
-{  
+
+Project::Project(QObject* parent) : QFileSystemModel(parent)
+{
+
 }
 
 Project::~Project()
@@ -23,7 +22,6 @@ Project::~Project()
 Project* Project::create(const QString& path, const QString& name, QObject* parent)
 {
     Project* project = new Project(parent);
-
     project->_name = name.toStdString();
     project->_path = path.toStdString();
     project->_scene = std::string(RESOURCE_DIR) + std::string("/") + std::string(SCENE_NEW) + std::string(SCENE_EXT);
@@ -33,7 +31,7 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     if (!projectDir.mkdir("res"))
     {
         SAFE_DELETE(project);
-        return NULL;
+        return nullptr;
     }
     // Create a project file
     if (!_serializerActivated)
@@ -45,7 +43,7 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     QByteArray projectFilePathByteArray = projectFilePath.toLatin1();
     const char* projectFilePathStr = projectFilePathByteArray.data();
     Serializer* projectWriter = SerializerJson::createWriter(projectFilePathStr);
-    projectWriter->writeObject(NULL, project);
+    projectWriter->writeObject(nullptr, project);
     projectWriter->close();
     SAFE_DELETE(projectWriter);
 
@@ -55,7 +53,7 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     const char* configFilePathStr = configFilePathByteArray.data();
     Serializer* configWriter = SerializerJson::createWriter(configFilePathStr);
     Game::Config config;
-    configWriter->writeObject(NULL, &config);
+    configWriter->writeObject(nullptr, &config);
     configWriter->close();
     SAFE_DELETE(configWriter);
 
@@ -82,7 +80,7 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     QByteArray sceneFilePathByteArray = sceneFilePath.toLatin1();
     const char* sceneFilePathStr = sceneFilePathByteArray.data();
     Serializer* sceneWriter = SerializerJson::createWriter(sceneFilePathStr);
-    sceneWriter->writeObject(NULL, scene);
+    sceneWriter->writeObject(nullptr, scene);
     sceneWriter->close();
     SAFE_DELETE(sceneWriter)
     SAFE_RELEASE(scene);
@@ -100,15 +98,15 @@ Project* Project::open(const QString& path, QObject* parent)
 
     QString projectPath(path + QString("/") + QString(QLatin1String(PROJECT_FILE)));
     if (!QFile(projectPath).exists())
-        return NULL;
+        return nullptr;
 
     QByteArray ba = projectPath.toLatin1();
     const char* str = ba.data();
     Serializer* projectReader = Serializer::createReader(str);
-    Project* project = NULL;
+    Project* project = nullptr;
     if (projectReader)
     {
-        project = static_cast<Project*>(projectReader->readObject(NULL));
+        project = static_cast<Project*>(projectReader->readObject(nullptr));
         projectReader->close();
         SAFE_DELETE(projectReader);
     }

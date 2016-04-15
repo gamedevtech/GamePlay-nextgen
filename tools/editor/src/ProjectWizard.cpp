@@ -3,8 +3,8 @@
 #include "Project.h"
 #include "EditorWindow.h"
 #include "ui_ProjectWizard.h"
-
 #include <QtWidgets>
+
 #define SETTINGS_ORGANIZATION "gameplay"
 #define SETTINGS_APPLICATION "editor"
 #define SETTINGS_RECENTS_PROECTS "recentProjects"
@@ -16,7 +16,7 @@
 ProjectWizard::ProjectWizard(QWidget* parent) : QDialog(parent), 
     _ui(new Ui::ProjectWizard), _editor(NULL)
 {
-    _ui->setupUi(this);
+    _ui->setupUi(this);    
 }
 
 ProjectWizard::~ProjectWizard()

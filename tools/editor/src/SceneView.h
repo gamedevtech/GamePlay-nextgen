@@ -3,7 +3,6 @@
 
 #include "gameplay.h"
 using namespace gameplay;
-
 #include "EditorWindow.h"
 #include <QWidget>
 #include <QTreeWidgetItem>
@@ -12,6 +11,11 @@ namespace Ui {
 class SceneView;
 }
 
+
+/**
+ * Defines the scene view to display the hierarchy of scene
+ * including all node within it.
+ */
 class SceneView : public QWidget
 {
     Q_OBJECT
@@ -21,7 +25,7 @@ public:
      *
      * @param parent The parent widget.
      */
-    explicit SceneView(QWidget* parent = 0);
+    explicit SceneView(QWidget* parent = nullptr);
 
     /**
      * Destructor.
@@ -48,6 +52,7 @@ public slots:
     
 private:
     QTreeWidgetItem* createTreeItem(Node* node);
+
     void visitNodeAddItem(Node* parent, QTreeWidgetItem* parentItem);
 
     Ui::SceneView* _ui;

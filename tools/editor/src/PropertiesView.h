@@ -7,6 +7,7 @@ namespace Ui {
 class PropertiesView;
 }
 
+
 /**
  * Defines a view for diplaying and editing scene objects.
  */
@@ -19,7 +20,7 @@ public:
      *
      * @param parent The parent widget.
      */
-    explicit PropertiesView(QWidget* parent = 0);
+    explicit PropertiesView(QWidget* parent = nullptr);
 
     /**
      * Destructor.

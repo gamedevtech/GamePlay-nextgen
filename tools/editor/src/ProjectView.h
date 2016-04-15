@@ -2,16 +2,17 @@
 #define PROJECTVIEW_H
 
 #include "EditorWindow.h"
+#include "ProjectSortFilterProxyModel.h"
 #include <QWidget>
 
 namespace Ui {
 class ProjectView;
 }
-
 class Project;
 
+
 /**
- * The project view showing files visible in the project directory.
+ * Defines a project view showing files visible in the project directory.
  */
 class ProjectView : public QWidget
 {
@@ -20,9 +21,10 @@ class ProjectView : public QWidget
 public:
     /**
      * Constructor.
+     *
      * @param parent The parent widget.
      */
-    explicit ProjectView(QWidget* parent = 0);
+    explicit ProjectView(QWidget* parent = nullptr);
 
     /**
      * Destructor.
@@ -31,6 +33,7 @@ public:
 
     /**
      * Opens a project at the specified path.
+     *
      * @param path The project path.
      */
     void openProject(const QString& path);
@@ -42,33 +45,46 @@ public:
 
     /**
      * Gets the project that is open.
+     *
      * @return The open project.
      */
     Project* project() const;
 
-protected:
+public slots:
     /**
-     * Gets the ui associated with this view.
-     * @return The view ui.
+     * Handler for when the search filter text changes.
+     *
+     * @param text The changed text.
      */
-    Ui::ProjectView* ui();
-
-    /**
-     * Opens a scene at the specified path.
-     * @param path The path of the scene to be opened.
-     */
-    void openScene(const QString& path);
+    void searchTextChanged(const QString& text);
 
 signals:
     /**
      * Signal emmited with a new scene has been opened.
+     *
      * @param path The path of the scene being opened.
      */
     void sceneOpened(const QString& path);
 
+protected:
+    /**
+    * Gets the ui associated with this view.
+    *
+    * @return The view ui.
+    */
+    Ui::ProjectView* ui();
+
+    /**
+    * Opens a scene at the specified path.
+    *
+    * @param path The path of the scene to be opened.
+    */
+    void openScene(const QString& path);
+
 private:
     Ui::ProjectView* _ui;
     Project* _project;
+    ProjectSortFilterProxyModel* _sortFilterProxyModel;
 };
 
 #endif

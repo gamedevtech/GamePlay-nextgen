@@ -3,12 +3,12 @@
 
 #include "gameplay.h"
 using namespace gameplay;
-
 #include "EditorWindow.h"
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QMouseEvent>
 #include <QKeyEvent>
+
 
 /**
  * The main game view use to intialize, update and render game scenes.
@@ -22,7 +22,7 @@ public:
      *
      * @param parent The parent widget.
      */
-    explicit GameView(QWidget* parent = 0);
+    explicit GameView(QWidget* parent = nullptr);
 
     /**
      * Destructor.
@@ -107,6 +107,9 @@ protected:
 
     /**
      * Draws the active scene.
+     *
+     * @param node The node to draw.
+     * @return true if the node was drawn, false if not.
      */
     bool drawScene(Node* node);
 

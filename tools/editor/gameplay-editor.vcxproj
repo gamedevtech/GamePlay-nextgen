@@ -216,6 +216,7 @@
     <ClCompile Include="src\EditorWindow.cpp" />
     <ClCompile Include="src\GameView.cpp" />
     <ClCompile Include="src\Project.cpp" />
+    <ClCompile Include="src\ProjectSortFilterProxyModel.cpp" />
     <ClCompile Include="src\ProjectTreeView.cpp" />
     <ClCompile Include="src\ProjectView.cpp" />
     <ClCompile Include="src\ProjectWizard.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="GeneratedFiles\ui_ProjectWizard.h" />
     <ClInclude Include="GeneratedFiles\ui_PropertiesView.h" />
     <ClInclude Include="GeneratedFiles\ui_SceneView.h" />
+    <ClInclude Include="src\ProjectSortFilterProxyModel.h" />
     <ClInclude Include="src\ProjectWizardItemDelegate.h" />
     <CustomBuild Include="src\PropertiesView.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DWIN64 -DGP_USE_GAMEPAD -D_UNICODE -DGP_USE_GLEW -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I." "-I.\src" "-I.\..\..\gameplay\src" "-I.\..\..\external-deps\include" "-I$(MSBuildProgramFiles32)\Microsoft DirectX SDK (June 2010)\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\Release" "-I$(QTDIR)\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>

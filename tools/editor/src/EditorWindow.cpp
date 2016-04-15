@@ -11,10 +11,11 @@
 
 #define EDITOR_WINDOW_TITLE "GamePlay Editor"
 
+
 EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent), 
     _ui(new Ui::EditorWindow), _projectWizard(0), _projectView(0),
-    _gameView(0), _sceneView(0), _propertiesView(0), _scene(NULL),
-    _transformModeButton(NULL), _shadingButton(NULL)
+    _gameView(0), _sceneView(0), _propertiesView(0), _scene(nullptr),
+    _transformModeButton(nullptr), _shadingButton(nullptr)
 {
     _ui->setupUi(this);
 
@@ -68,7 +69,6 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
 
     // Initialize the toolbar
     QToolBar* toolBar = this->addToolBar(tr("Top"));
-
     toolBar->addAction(_ui->actionNew);
     toolBar->addAction(_ui->actionOpen);
     toolBar->addAction(_ui->actionSave);
@@ -83,7 +83,7 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     // Initialize Add toolbar buttons
     QMenu* addMenu = new QMenu();
     QToolButton* addButton = (QToolButton*)toolBar->widgetForAction(_ui->actionAdd);
-    addButton->setPopupMode(QToolButton::MenuButtonPopup);
+    addButton->setPopupMode(QToolButton::InstantPopup);
     addButton->setMenu(addMenu);
     addMenu->addAction(_ui->actionAdd_Node);
     addMenu->addAction(_ui->actionAdd_Cube);
@@ -121,7 +121,7 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     // Initialize transform mode toolbar buttons
     QMenu* transformModeMenu = new QMenu();
     _transformModeButton = (QToolButton*)toolBar->widgetForAction(_ui->actionTransformMode);
-    _transformModeButton->setPopupMode(QToolButton::MenuButtonPopup);
+    _transformModeButton->setPopupMode(QToolButton::InstantPopup);
     _transformModeButton->setMenu(transformModeMenu);
     _transformModeButton->setDefaultAction(_ui->actionTransformMode_World);
     transformModeMenu->addAction(_ui->actionTransformMode_World);
@@ -130,7 +130,7 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     // Initialize Shading toolbar buttons
     QMenu* shadingMenu = new QMenu();
     _shadingButton = (QToolButton*)toolBar->widgetForAction(_ui->actionShading);
-    _shadingButton->setPopupMode(QToolButton::MenuButtonPopup);
+    _shadingButton->setPopupMode(QToolButton::InstantPopup);
     _shadingButton->setMenu(shadingMenu);
     _shadingButton->setDefaultAction(_ui->actionShading_Lit);
     shadingMenu->addAction(_ui->actionShading_Lit);
@@ -213,7 +213,7 @@ void EditorWindow::sceneOpened(const QString& path)
 {
     QByteArray pathByteArray = path.toLatin1();
     Serializer* serializer = Serializer::createReader(pathByteArray.data());
-    _scene = static_cast<Scene*>(serializer->readObject(NULL));
+    _scene = static_cast<Scene*>(serializer->readObject(nullptr));
 
     emit sceneChanged();
 }

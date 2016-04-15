@@ -148,6 +148,9 @@
     <ClCompile Include="GeneratedFiles\qrc_gameplay-editor.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectSortFilterProxyModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="src\EditorWindow.h">
@@ -484,6 +487,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_SceneView.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectSortFilterProxyModel.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,19 +1,16 @@
 #include "SceneView.h"
 #include "ui_SceneView.h"
-
 #include <QMenu>
 
+
 SceneView::SceneView(QWidget* parent) : QWidget(parent),
-    _ui(new Ui::SceneView), _editor(NULL), _scene(NULL)
+    _ui(new Ui::SceneView), _editor(nullptr), _scene(nullptr)
 {
     _ui->setupUi(this);
-
     _ui->lineEditSearch->addAction(QIcon(":/res/images/search.png"), QLineEdit::LeadingPosition);
 
     QMenu* addMenu = new QMenu();
-
-    _ui->toolButtonAdd->setObjectName("addContextMenu");
-    _ui->toolButtonAdd->setPopupMode(QToolButton::MenuButtonPopup);
+    _ui->toolButtonAdd->setPopupMode(QToolButton::InstantPopup);
     _ui->toolButtonAdd->setMenu(addMenu);
     addMenu->addAction(_ui->actionAdd_Node);
     addMenu->addAction(_ui->actionAdd_Cube);
@@ -50,7 +47,7 @@ void SceneView::sceneChanged()
 
     connect(_ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*, int )), this, SLOT(itemChanged(QTreeWidgetItem*,int)));
 
-    for (Node* node = _scene->getFirstNode(); node != NULL; node = node->getNextSibling())
+    for (Node* node = _scene->getFirstNode(); node != nullptr; node = node->getNextSibling())
     {
         QTreeWidgetItem* item = createTreeItem(node);
         _ui->treeWidget->addTopLevelItem(item);
@@ -81,7 +78,7 @@ QTreeWidgetItem* SceneView::createTreeItem(Node* node)
 
 void SceneView::visitNodeAddItem(Node* parent, QTreeWidgetItem* parentItem)
 {
-    for (Node* node = parent->getFirstChild(); node != NULL; node = node->getNextSibling())
+    for (Node* node = parent->getFirstChild(); node != nullptr; node = node->getNextSibling())
     {
         QTreeWidgetItem* item = createTreeItem(node);
         parentItem->addChild(item);

@@ -1,8 +1,9 @@
 #include "GameView.h"
 #include <QtWidgets>
 
+
 GameView::GameView(QWidget* parent) : QOpenGLWidget(parent), 
-    _editor(NULL), _scene(NULL), _wireframe(false)
+    _editor(nullptr), _scene(nullptr), _wireframe(false)
 {
     QSurfaceFormat format;
     format.setDepthBufferSize(24);

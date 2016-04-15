@@ -3,6 +3,7 @@
 
 #include <QStyledItemDelegate>
 
+
 /**
  * Defines the visual style for list items in the project wizard.
  */
@@ -11,9 +12,10 @@ class ProjectWizardItemDelegate : public QStyledItemDelegate
 public:
     /**
      * Constructor.
+     *
      * @param parent The parent object.
      */
-    ProjectWizardItemDelegate(QObject* parent = 0);
+    explicit ProjectWizardItemDelegate(QObject* parent = nullptr);
 
     /**
      * Destructor.

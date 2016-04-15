@@ -1,9 +1,10 @@
 #include "ProjectWizardItemDelegate.h"
 #include <QPainter>
 
-#define FONT_NAME           QFont("Tahoma", 16, QFont::Bold)
+#define FONT_NAME           QFont("Tahoma", 14, QFont::Bold)
 #define FONT_PATH           QFont("Tahoma", 12, QFont::Normal)
 #define HEIGHT_PADDING      10
+
 
 ProjectWizardItemDelegate::ProjectWizardItemDelegate(QObject* parent)
 {
@@ -25,18 +26,19 @@ void ProjectWizardItemDelegate::paint(QPainter* painter, const QStyleOptionViewI
      {
          painter->setPen(option.palette.text().color());
      }
-
      // Name
      QString title = index.data(Qt::DisplayRole).toString();
      adjusted = option.rect.adjusted(10, 0, 0, -18);
      painter->setFont(FONT_NAME);
-     painter->drawText(adjusted.left(), adjusted.top(), adjusted.width(), adjusted.height(),
+     painter->drawText(adjusted.left(), adjusted.top(), 
+                       adjusted.width(), adjusted.height(),
                        Qt::AlignBottom|Qt::AlignLeft, title, &adjusted);
      // Path
      QString description = index.data(Qt::UserRole).toString();
      adjusted = option.rect.adjusted(10, 20, 0, 0);
      painter->setFont(FONT_PATH);
-     painter->drawText(adjusted.left(), adjusted.top(), adjusted.width(), adjusted.height(),
+     painter->drawText(adjusted.left(), adjusted.top(), 
+                       adjusted.width(), adjusted.height(),
                        Qt::AlignLeft, description, &adjusted);
 }
 

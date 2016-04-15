@@ -3,14 +3,12 @@
 
 #include "gameplay.h"
 using namespace gameplay;
-
 #include <QMainWindow>
 #include <QToolButton>
 
 namespace Ui {
 class EditorWindow;
 }
-
 class ProjectWizard;
 class ProjectView;
 class GameView;
@@ -18,8 +16,9 @@ class SceneView;
 class PropertiesView;
 class Project;
 
+
 /**
- * Main editor window.
+ * Defines the main editor window and toolbars.
  */
 class EditorWindow : public QMainWindow
 {
@@ -30,7 +29,7 @@ public:
      *
      * @param parent The parent widget.
      */
-    explicit EditorWindow(QWidget* parent = 0);
+    explicit EditorWindow(QWidget* parent = nullptr);
     
     /**
      * Destructor.

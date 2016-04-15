@@ -46,7 +46,11 @@
     </layout>
    </item>
    <item>
-    <widget class="ProjectTreeView" name="projectTreeView"/>
+    <widget class="ProjectTreeView" name="projectTreeView">
+     <property name="uniformRowHeights">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
   <action name="actionOpen_File">

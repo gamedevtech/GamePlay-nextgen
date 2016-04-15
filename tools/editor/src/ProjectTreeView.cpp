@@ -2,14 +2,15 @@
 #include "Project.h"
 #include "ProjectView.h"
 #include "ui_ProjectView.h"
-
 #include <QtWidgets>
 
-ProjectTreeView::ProjectTreeView(QWidget* parent)
-    : QTreeView(parent), _projectView(static_cast<ProjectView*>(parent))
+
+ProjectTreeView::ProjectTreeView(QWidget* parent) : QTreeView(parent), 
+    _projectView(static_cast<ProjectView*>(parent))
 {
     setContextMenuPolicy(Qt::ContextMenuPolicy::DefaultContextMenu);
     setSortingEnabled(true);
+    
 }
 
 void ProjectTreeView::itemDoubleClicked(const QModelIndex& index)
@@ -24,8 +25,8 @@ void ProjectTreeView::openFileTriggered()
 
 void ProjectTreeView::openSelectedItem()
 {
-    QModelIndex index = this->currentIndex();
-    Project* project = static_cast<Project*>(this->model());
+    const QModelIndex index = this->selectionModel()->currentIndex();
+    Project* project = _projectView->project();
     QString sceneFilePath = project->filePath(index);
     if (sceneFilePath.endsWith(".scene"))
     {

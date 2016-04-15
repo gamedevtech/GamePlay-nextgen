@@ -2,10 +2,13 @@
 #define PROJECTTREEVIEW_H
 
 #include <QTreeView>
+
 class ProjectView;
 
+
 /**
- * The project tree view.
+ * Defines the project tree view which display the project 
+ * specific files from the projects file system.
  */
 class ProjectTreeView : public QTreeView
 {
@@ -16,7 +19,7 @@ public:
      *
      * @param parent The parent widget.
      */
-    explicit ProjectTreeView(QWidget* parent = 0);
+    explicit ProjectTreeView(QWidget* parent = nullptr);
 
 public slots:
     /**
