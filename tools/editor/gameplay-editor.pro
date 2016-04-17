@@ -12,6 +12,7 @@ CONFIG(debug, debug|release): DEFINES += _DEBUG
 
 SOURCES +=  src/main.cpp\
     src/EditorWindow.cpp \
+    src/SceneSortFilterProxyModel.cpp \
     src/SceneView.cpp \
     src/ProjectView.cpp \
     src/ProjectTreeView.cpp \
@@ -20,17 +21,20 @@ SOURCES +=  src/main.cpp\
     src/ProjectWizard.cpp \
     src/ProjectWizardItemDelegate.cpp \
     src/Project.cpp \
+    src/ProjectSortFilterProxyModel.cpp \
     src/GizmoGrid.cpp
 
 HEADERS +=  src/EditorWindow.h \
     src/ProjectTreeView.h \
     src/ProjectView.h \
     src/PropertiesView.h \
+    src/SceneSortFilterProxyModel.h \
     src/SceneView.h \
     src/GameView.h \
     src/ProjectWizard.h \
     src/ProjectWizardItemDelegate.h \
     src/Project.h \
+    src/ProjectSortFilterProxyModel.h \
     src/GizmoGrid.h \
     src/Gizmo.h
 

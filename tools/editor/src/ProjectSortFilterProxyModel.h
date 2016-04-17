@@ -1,7 +1,8 @@
-#ifndef PROJECTSROTFILTERPROXYMODEL_H
-#define PROJECTSROTFILTERPROXYMODEL_H
+#ifndef PROJECTSORTFILTERPROXYMODEL_H
+#define PROJECTSORTFILTERPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
+
 
 /**
  * Defines the sorting filter used for the project.
@@ -24,7 +25,12 @@ public:
     /**
      * @see QSortFilterProxyModel::lessThan
      */
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+    bool lessThan(const QModelIndex& left, const QModelIndex& right) const;
+
+    /**
+     * @see QSortFilterProxyModel::filterAcceptsRow
+     */
+    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const;
 };
 
 #endif

@@ -50,6 +50,13 @@ public:
      */
     Project* project() const;
 
+    /**
+     * Gets the sort filter for the project model.
+     *
+     * @return The sort filter for the project model.
+     */
+    ProjectSortFilterProxyModel* sortFilter() const;
+
 public slots:
     /**
      * Handler for when the search filter text changes.
@@ -84,7 +91,7 @@ protected:
 private:
     Ui::ProjectView* _ui;
     Project* _project;
-    ProjectSortFilterProxyModel* _sortFilterProxyModel;
+    ProjectSortFilterProxyModel* _sortFilter;
 };
 
 #endif

@@ -2,13 +2,12 @@
 #include "ui_SceneView.h"
 #include <QMenu>
 
-
 SceneView::SceneView(QWidget* parent) : QWidget(parent),
-    _ui(new Ui::SceneView), _editor(nullptr), _scene(nullptr)
+    _ui(new Ui::SceneView), _editor(nullptr), _scene(nullptr), _model(nullptr), _sortFilter(nullptr)
 {
     _ui->setupUi(this);
     _ui->lineEditSearch->addAction(QIcon(":/res/images/search.png"), QLineEdit::LeadingPosition);
-
+    // Add toolbar menu.
     QMenu* addMenu = new QMenu();
     _ui->toolButtonAdd->setPopupMode(QToolButton::InstantPopup);
     _ui->toolButtonAdd->setMenu(addMenu);
@@ -28,11 +27,28 @@ SceneView::SceneView(QWidget* parent) : QWidget(parent),
     addMenu->addAction(_ui->actionAdd_Form);
     addMenu->addAction(_ui->actionAdd_Audio);
     addMenu->addAction(_ui->actionAdd_Video);
+
+    _ui->treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    _ui->treeView->setUniformRowHeights(true);
+    _model = new QStandardItemModel();
+
+    // Sort and search filter
+    _sortFilter = new SceneSortFilterProxyModel();
+    _sortFilter->setDynamicSortFilter(true);
+    _sortFilter->setFilterKeyColumn(0);
+    _sortFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    _sortFilter->setSourceModel(_model);
+    _ui->treeView->setSortingEnabled(true);
+    _ui->treeView->setModel(_sortFilter);
+
+    connect(_ui->lineEditSearch, SIGNAL(textChanged(QString)), this, SLOT(searchTextChanged(QString)));
+    connect(_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(dataChanged(QModelIndex, QModelIndex)));
 }
 
 SceneView::~SceneView()
 {
     delete _ui;
+    delete _model;
 }
 
 void SceneView::setEditor(EditorWindow* editor)
@@ -43,51 +59,52 @@ void SceneView::setEditor(EditorWindow* editor)
 void SceneView::sceneChanged()
 {
     _scene = _editor->scene();
-    _ui->treeWidget->clear();
-
-    connect(_ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*, int )), this, SLOT(itemChanged(QTreeWidgetItem*,int)));
-
     for (Node* node = _scene->getFirstNode(); node != nullptr; node = node->getNextSibling())
     {
-        QTreeWidgetItem* item = createTreeItem(node);
-        _ui->treeWidget->addTopLevelItem(item);
+        QStandardItem* item = createTreeItem(node);
+        _model->appendRow(item);
     }
 }
 
-QTreeWidgetItem* SceneView::createTreeItem(Node* node)
+QStandardItem* SceneView::createTreeItem(Node* node)
 {
-    QTreeWidgetItem* nodeItem = new QTreeWidgetItem(QTreeWidgetItem::Type);
-    QString nodeText;
-    const char* nodeId = node->getId();
-    if (nodeId && strlen(nodeId) > 0)
-        nodeText = QString(nodeId);
+    QString text;
+    const char* id = node->getId();
+    if (id && strlen(id) > 0)
+        text = QString(id);
     else
-        nodeText = QString(tr("Node"));
+        text = QString(tr("Node"));
 
-    nodeItem->setText(0, nodeText);
-    nodeItem->setIcon(0, QIcon(":/res/images/scene-node.png"));
-    nodeItem->setFlags(nodeItem->flags() | Qt::ItemIsEditable);
-
+    QStandardItem* item = new QStandardItem(QIcon(":/res/images/scene-node.png"), text);
+    item->setEditable(true);
     // Associate the node to the item
-    nodeItem->setData(0, Qt::UserRole, QVariant::fromValue((qlonglong)node));
+    item->setData(QVariant::fromValue((qlonglong)node), Qt::UserRole + 1);
 
-    visitNodeAddItem(node, nodeItem);
+    // Visit all the child nodes
+    visitNodeAddItem(node, item);
 
-    return nodeItem;
+    return item;
 }
 
-void SceneView::visitNodeAddItem(Node* parent, QTreeWidgetItem* parentItem)
+void SceneView::visitNodeAddItem(Node* parent, QStandardItem* parentItem)
 {
     for (Node* node = parent->getFirstChild(); node != nullptr; node = node->getNextSibling())
     {
-        QTreeWidgetItem* item = createTreeItem(node);
-        parentItem->addChild(item);
+        QStandardItem* item = createTreeItem(node);
+        parentItem->appendRow(item);
     }
 }
 
-void SceneView::itemChanged(QTreeWidgetItem* item, int column)
+void SceneView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
 {
-    QVariant data = item->data(0, Qt::UserRole);
-    Node* node = (Node*) data.toLongLong();
-    node->setId((item->text(0)).toLatin1().constData());
+    //QVariant userData = topLeft.data(Qt::UserRole + 1);
+    //Node* node = (Node*) userData.toLongLong();
+    //QVariant displayData = topLeft.data(Qt::DisplayRole);
+    //node->setId(displayData.toString().toLatin1().constData());
 }
+
+void SceneView::searchTextChanged(const QString& text)
+{
+    _sortFilter->setFilterRegExp(text);
+}
+

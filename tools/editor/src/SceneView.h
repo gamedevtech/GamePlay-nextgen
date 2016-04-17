@@ -4,8 +4,9 @@
 #include "gameplay.h"
 using namespace gameplay;
 #include "EditorWindow.h"
+#include "SceneSortFilterProxyModel.h"
 #include <QWidget>
-#include <QTreeWidgetItem>
+#include <QStandardItem>
 
 namespace Ui {
 class SceneView;
@@ -46,18 +47,27 @@ public slots:
     void sceneChanged();
 
     /**
-     * @see QTreeWidget::itemChanged
+     * Handler for when the search filter text changes.
+     *
+     * @param text The changed text.
      */
-    static void itemChanged(QTreeWidgetItem* item, int column);
+    void searchTextChanged(const QString& text);
+
+    /**
+     * @see QAbstractItemModel::dataChanged
+     */
+    void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
     
 private:
-    QTreeWidgetItem* createTreeItem(Node* node);
+    QStandardItem* createTreeItem(Node* node);
 
-    void visitNodeAddItem(Node* parent, QTreeWidgetItem* parentItem);
+    void visitNodeAddItem(Node* parent, QStandardItem* parentItem);
 
     Ui::SceneView* _ui;
     EditorWindow* _editor;
     Scene* _scene;
+    QStandardItemModel* _model;
+    SceneSortFilterProxyModel* _sortFilter;
 };
 
 #endif

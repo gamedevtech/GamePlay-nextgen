@@ -5,14 +5,14 @@
 #include <QFileSystemModel>
 
 ProjectView::ProjectView(QWidget* parent) : QWidget(parent), 
-    _ui(new Ui::ProjectView), _project(nullptr), _sortFilterProxyModel(nullptr)
+    _ui(new Ui::ProjectView), _project(nullptr), _sortFilter(nullptr)
 {
     _ui->setupUi(this);
-    _ui->lineEditSearch->addAction(QIcon(":/res/images/search.png"), QLineEdit::LeadingPosition);
 
+    _ui->lineEditSearch->addAction(QIcon(":/res/images/search.png"), QLineEdit::LeadingPosition);
     connect(_ui->lineEditSearch, SIGNAL(textChanged(QString)), this, SLOT(searchTextChanged(QString)));
-    connect(_ui->projectTreeView, SIGNAL(doubleClicked(QModelIndex)), _ui->projectTreeView, SLOT(itemDoubleClicked(QModelIndex)));
-    connect(_ui->actionOpen_File, SIGNAL(triggered(bool)), _ui->projectTreeView, SLOT(openFileTriggered()));
+    connect(_ui->treeView, SIGNAL(doubleClicked(QModelIndex)), _ui->treeView, SLOT(itemDoubleClicked(QModelIndex)));
+    connect(_ui->actionOpen_File, SIGNAL(triggered(bool)), _ui->treeView, SLOT(openFileTriggered()));
 }
 
 ProjectView::~ProjectView()
@@ -29,7 +29,7 @@ Ui::ProjectView* ProjectView::ui()
 void ProjectView::openProject(const QString& path)
 {
     closeProject();
-    _project = Project::open(path, _ui->projectTreeView);
+    _project = Project::open(path, _ui->treeView);
     if (_project)
     {
         _project->setRootPath(path);
@@ -44,26 +44,25 @@ void ProjectView::openProject(const QString& path)
         _project->setNameFilters(nameFilters);
         _project->setNameFilterDisables(false);
         
-        /*TODO
-        / Sort and search filter
-        _sortFilterProxyModel = new ProjectSortFilterProxyModel();
-        _sortFilterProxyModel->setDynamicSortFilter(true);
-        _sortFilterProxyModel->setSourceModel(_project);
-        _sortFilterProxyModel->setFilterKeyColumn(0);
-        _ui->projectTreeView->setModel(_sortFilterProxyModel);
-        _ui->projectTreeView->setSortingEnabled(true);
-        _ui->projectTreeView->setRootIndex(_sortFilterProxyModel->mapFromSource(_project->index(path)));
-        */
-        _ui->projectTreeView->setModel(_project);
-        _ui->projectTreeView->setRootIndex(_project->index(path));
+        // Sort and search filter
+        _sortFilter = new ProjectSortFilterProxyModel();
+        _sortFilter->setDynamicSortFilter(true);
+        _sortFilter->setFilterKeyColumn(0);
+        _sortFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);
+        _sortFilter->setSourceModel(_project);
+        _ui->treeView->setSortingEnabled(true);
+        _ui->treeView->setModel(_sortFilter);
+        _ui->treeView->setRootIndex(_sortFilter->mapFromSource(_project->index(path)));
 
         // Header sizing
-        _ui->projectTreeView->hideColumn(2);
-        _ui->projectTreeView->setColumnWidth(0, 760);
-        _ui->projectTreeView->setColumnWidth(1, 120);
-        _ui->projectTreeView->setColumnWidth(2, 120);
+        _ui->treeView->hideColumn(2);
+        _ui->treeView->setColumnWidth(0, 700);
+        _ui->treeView->setColumnWidth(1, 120);
+        _ui->treeView->setColumnWidth(2, 120);
+
+        // Expand the '/res' folder
         QString resFolderPath = path + QString("/") + QString(QLatin1String("res"));
-        _ui->projectTreeView->expand(_project->index(resFolderPath));
+        _ui->treeView->expand(_sortFilter->mapFromSource(_project->index(resFolderPath)));
 
         // Open the last scene editor for the project.        
         openScene(path+ QString("/") + _project->scene());
@@ -80,6 +79,11 @@ Project* ProjectView::project() const
     return _project;
 }
 
+ProjectSortFilterProxyModel* ProjectView::sortFilter() const
+{
+    return _sortFilter;
+}
+
 void ProjectView::openScene(const QString& path)
 {
     emit sceneOpened(path);
@@ -87,6 +91,5 @@ void ProjectView::openScene(const QString& path)
 
 void ProjectView::searchTextChanged(const QString& text)
 { 
-    // TODO: Get this working
-    //_sortFilterProxyModel->setFilterFixedString(text);
+    _sortFilter->setFilterRegExp(text);
 }

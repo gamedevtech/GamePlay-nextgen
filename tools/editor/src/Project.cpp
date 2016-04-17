@@ -60,6 +60,7 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     // Create an empty scene.
     std::string id = SCENE_NEW;
     Scene* scene = Scene::create(id.c_str());
+
     // Add a perspective camera
     float aspectRatio = (float)config.width / (float)config.height;
     Camera* camera = Camera::createPerspective(45.0f, aspectRatio, 1.0f, 10.0f);
@@ -67,6 +68,7 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     cameraNode->setCamera(camera);
     scene->setActiveCamera(camera);
     SAFE_RELEASE(camera);
+
     // Add a directional light
     Light* light = Light::createDirectional(Vector3::one());
     Node* lightNode = Node::create(NODE_NEW);

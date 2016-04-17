@@ -46,7 +46,7 @@
     </layout>
    </item>
    <item>
-    <widget class="ProjectTreeView" name="projectTreeView">
+    <widget class="ProjectTreeView" name="treeView">
      <property name="uniformRowHeights">
       <bool>true</bool>
      </property>

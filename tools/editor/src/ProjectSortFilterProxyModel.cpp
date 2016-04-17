@@ -15,19 +15,27 @@ bool ProjectSortFilterProxyModel::lessThan(const QModelIndex &left, const QModel
     if (sortColumn() == 0) 
     {
         QFileSystemModel* fsm = qobject_cast<QFileSystemModel*>(sourceModel());
-        bool asc = sortOrder() == Qt::AscendingOrder ? true : false;
+        bool ascending = sortOrder() == Qt::AscendingOrder ? true : false;
         QFileInfo leftFileInfo = fsm->fileInfo(left);
         QFileInfo rightFileInfo = fsm->fileInfo(right);
         // If DotAndDot move in the beginning
         if (sourceModel()->data(left).toString() == "..")
-            return asc;
+            return ascending;
         if (sourceModel()->data(right).toString() == "..")
-            return !asc;
+            return !ascending;
         // Move directories to top
         if (!leftFileInfo.isDir() && rightFileInfo.isDir())
-            return !asc;
+            return !ascending;
         if (leftFileInfo.isDir() && !rightFileInfo.isDir())
-            return asc;
+            return ascending;
     }
     return QSortFilterProxyModel::lessThan(left, right);
+}
+
+bool ProjectSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+{
+    QModelIndex index = sourceModel()->index(sourceRow,0, sourceParent);
+    if (sourceModel()->hasChildren(index))
+        return true;
+    return QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent);
 }

@@ -25,8 +25,10 @@ void ProjectTreeView::openFileTriggered()
 
 void ProjectTreeView::openSelectedItem()
 {
-    const QModelIndex index = this->selectionModel()->currentIndex();
     Project* project = _projectView->project();
+    ProjectSortFilterProxyModel* sortFilter = _projectView->sortFilter();
+    const QModelIndex index = sortFilter->mapToSource(this->selectionModel()->currentIndex());
+
     QString sceneFilePath = project->filePath(index);
     if (sceneFilePath.endsWith(".scene"))
     {
