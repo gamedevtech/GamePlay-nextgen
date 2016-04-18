@@ -151,6 +151,9 @@
     <ClCompile Include="src\ProjectSortFilterProxyModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SceneSortFilterProxyModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="src\EditorWindow.h">
@@ -489,6 +492,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectSortFilterProxyModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneSortFilterProxyModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -222,10 +222,12 @@
     <ClCompile Include="src\ProjectWizard.cpp" />
     <ClCompile Include="src\ProjectWizardItemDelegate.cpp" />
     <ClCompile Include="src\PropertiesView.cpp" />
+    <ClCompile Include="src\SceneSortFilterProxyModel.cpp" />
     <ClCompile Include="src\SceneView.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SceneSortFilterProxyModel.h" />
     <CustomBuild Include="src\EditorWindow.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DWIN64 -DGP_USE_GAMEPAD -D_UNICODE -DGP_USE_GLEW -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I." "-I.\src" "-I.\..\..\gameplay\src" "-I.\..\..\external-deps\include" "-I$(MSBuildProgramFiles32)\Microsoft DirectX SDK (June 2010)\include" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\Release" "-I$(QTDIR)\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing EditorWindow.h...</Message>
