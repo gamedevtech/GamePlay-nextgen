@@ -38,7 +38,7 @@ SceneView::SceneView(QWidget* parent) : QWidget(parent),
     _sortFilter->setFilterKeyColumn(0);
     _sortFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);
     _sortFilter->setSourceModel(_model);
-    _ui->treeView->setSortingEnabled(true);
+    _ui->treeView->setSortingEnabled(false);
     _ui->treeView->setModel(_sortFilter);
 
     connect(_ui->lineEditSearch, SIGNAL(textChanged(QString)), this, SLOT(searchTextChanged(QString)));
@@ -97,10 +97,10 @@ void SceneView::visitNodeAddItem(Node* parent, QStandardItem* parentItem)
 
 void SceneView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
 {
-    //QVariant userData = topLeft.data(Qt::UserRole + 1);
-    //Node* node = (Node*) userData.toLongLong();
-    //QVariant displayData = topLeft.data(Qt::DisplayRole);
-    //node->setId(displayData.toString().toLatin1().constData());
+    QVariant userData = topLeft.data(Qt::UserRole + 1);
+    Node* node = (Node*) userData.toLongLong();
+    QVariant displayData = topLeft.data(Qt::DisplayRole);
+    node->setId(displayData.toString().toLatin1().constData());
 }
 
 void SceneView::searchTextChanged(const QString& text)
