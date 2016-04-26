@@ -48,7 +48,7 @@ public:
      *
      * @return The open project.
      */
-    Project* project() const;
+    Project* getProject() const;
 
     /**
      * Gets the sort filter for the project model.
@@ -75,17 +75,17 @@ signals:
 
 protected:
     /**
-    * Gets the ui associated with this view.
-    *
-    * @return The view ui.
-    */
+     * Gets the ui associated with this view.
+     *
+     * @return The view ui.
+     */
     Ui::ProjectView* ui();
 
     /**
-    * Opens a scene at the specified path.
-    *
-    * @param path The path of the scene to be opened.
-    */
+     * Opens a scene at the specified path.
+     *
+     * @param path The path of the scene to be opened.
+     */
     void openScene(const QString& path);
 
 private:

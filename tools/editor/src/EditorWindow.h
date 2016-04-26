@@ -24,6 +24,13 @@ class EditorWindow : public QMainWindow
 {
     Q_OBJECT
 public:
+
+    enum EditMode
+    {
+        EDIT_NODE,
+        EDIT_MODEL
+    };
+
     /**
      * Constructor.
      *
@@ -55,14 +62,42 @@ public:
      *
      * @return The currently open project.
      */
-    Project* project() const;
+    Project* getProject() const;
+
+    /**
+     * Gets the edit mode the editor is currently in.
+     *
+     * @return The edit mode the editor is currently in.
+     */
+    EditMode getEditMode() const;
 
     /**
      * Gets the opened scene.
      *
      * @return The open scene.
      */
-    Scene* scene() const;
+    Scene* getScene() const;
+
+    /**
+     * Gets the scene view.
+     *
+     * @return The scene view.
+     */
+    SceneView* getSceneView() const;
+
+    /**
+     * Gets the begin screen position for a selection or nullptr for no selection.
+     *
+     * @return The begin screen position for a selection or nullptr for no selection.
+     */
+    Vector2* getSelectionBegin() const;
+
+    /**
+     * Gets the end screen position for a drag selection or nullptr for no drag selection.
+     *
+     * @return The screen end point for a drag selection or nullptr for no drag selection.
+     */
+    Vector2* getSelectionEnd() const;
 
 public slots:
     /**
@@ -132,6 +167,11 @@ signals:
      */
     void sceneChanged();
 
+    /**
+     * Signal emitted when selection begin or end points change or either become deselected.
+     */
+    void selectionChanged();
+
 private:
     Ui::EditorWindow* _ui;
     GameView* _gameView;
@@ -140,6 +180,9 @@ private:
     PropertiesView *_propertiesView;
     SceneView*_sceneView;
     Scene* _scene;
+    EditMode _editMode;
+    Vector2* _selectionBegin;
+    Vector2* _selectionEnd;
     QToolButton* _transformModeButton;
     QToolButton* _shadingButton;
     std::string _assetPath;

@@ -11,7 +11,8 @@ CONFIG += c++11
 CONFIG -= qt
 CONFIG(debug, debug|release): DEFINES += _DEBUG
 
-SOURCES += src/AbsoluteLayout.cpp \
+SOURCES += \
+    src/AbsoluteLayout.cpp \
     src/AIAgent.cpp \
     src/AIController.cpp \
     src/AIMessage.cpp \
@@ -140,7 +141,8 @@ SOURCES += src/AbsoluteLayout.cpp \
     src/VertexFormat.cpp \
     src/VerticalLayout.cpp
 
-HEADERS += src/AbsoluteLayout.h \
+HEADERS += \
+    src/AbsoluteLayout.h \
     src/AIAgent.h \
     src/AIController.h \
     src/AIMessage.h \

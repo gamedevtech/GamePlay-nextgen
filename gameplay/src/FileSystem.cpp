@@ -388,7 +388,6 @@ Stream* FileSystem::open(const char* path, size_t streamMode)
     {
         // First try the SD card
         Stream* stream = FileStream::create(fullPath.c_str(), modeStr);
-
         if (!stream)
         {
             // Otherwise fall-back to assets loaded via the AssetManager
@@ -397,7 +396,6 @@ Stream* FileSystem::open(const char* path, size_t streamMode)
 
             stream = FileStreamAndroid::create(fullPath.c_str(), modeStr);
         }
-
         return stream;
     }
 #else

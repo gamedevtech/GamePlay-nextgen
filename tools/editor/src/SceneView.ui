@@ -65,6 +65,9 @@
    </item>
    <item>
     <widget class="QTreeView" name="treeView">
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
      <property name="acceptDrops">
       <bool>true</bool>
      </property>
@@ -76,6 +79,15 @@
      </property>
      <property name="defaultDropAction">
       <enum>Qt::MoveAction</enum>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>false</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+     <property name="autoExpandDelay">
+      <number>-5</number>
      </property>
      <property name="indentation">
       <number>20</number>

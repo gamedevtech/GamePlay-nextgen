@@ -10,7 +10,6 @@ ProjectTreeView::ProjectTreeView(QWidget* parent) : QTreeView(parent),
 {
     setContextMenuPolicy(Qt::ContextMenuPolicy::DefaultContextMenu);
     setSortingEnabled(true);
-    
 }
 
 void ProjectTreeView::itemDoubleClicked(const QModelIndex& index)
@@ -25,7 +24,7 @@ void ProjectTreeView::openFileTriggered()
 
 void ProjectTreeView::openSelectedItem()
 {
-    Project* project = _projectView->project();
+    Project* project = _projectView->getProject();
     ProjectSortFilterProxyModel* sortFilter = _projectView->sortFilter();
     const QModelIndex index = sortFilter->mapToSource(this->selectionModel()->currentIndex());
 

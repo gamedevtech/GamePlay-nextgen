@@ -13,8 +13,9 @@
 
 
 EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent), 
-    _ui(new Ui::EditorWindow), _projectWizard(0), _projectView(0),
-    _gameView(0), _sceneView(0), _propertiesView(0), _scene(nullptr),
+    _ui(new Ui::EditorWindow), _projectWizard(nullptr), _projectView(nullptr),
+    _gameView(nullptr), _propertiesView(nullptr), _sceneView(nullptr), _scene(nullptr),
+    _editMode(EDIT_NODE), _selectionBegin(nullptr), _selectionEnd(nullptr),
     _transformModeButton(nullptr), _shadingButton(nullptr)
 {
     _ui->setupUi(this);
@@ -155,8 +156,17 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     _propertiesView = new PropertiesView(_ui->propertiesDockWidget);
     _ui->propertiesDockWidget->setWidget(_propertiesView);
 
-    connect(_ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(actionOpenTriggered()));
-    connect(_ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(actionNewTriggered()));
+    // Setup and interface from the panels to state changes in the editor.
+    _propertiesView->setEditor(this);
+    _sceneView->setEditor(this);
+    _gameView->setEditor(this);
+
+    // Initialize the selection begin and end to offscreen which means no selection.
+    _selectionBegin = new Vector2(-1, -1);
+    _selectionEnd = new Vector2(-1, -1);
+
+    connect(_ui->actionOpen, SIGNAL(triggered()), this, SLOT(actionOpenTriggered()));
+    connect(_ui->actionNew, SIGNAL(triggered()), this, SLOT(actionNewTriggered()));
     connect(_ui->actionFullscreen, SIGNAL(toggled(bool)), this, SLOT(actionFullscreenToggled(bool)));
     connect(_ui->actionTransformMode_World, SIGNAL(triggered()), this, SLOT(actionTransformModeWorldTriggered()));
     connect(_ui->actionTransformMode_Local, SIGNAL(triggered()), this, SLOT(actionTransformModeLocalTriggered()));
@@ -164,11 +174,10 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     connect(_ui->actionShading_Unlit, SIGNAL(triggered()), this, SLOT(actionShadingUnlitTriggered()));
     connect(_ui->actionShading_Wireframe, SIGNAL(triggered()), this, SLOT(actionShadingWireframeTriggered()));
     connect(_projectView, SIGNAL(sceneOpened(QString)), this, SLOT(sceneOpened(QString)));
-
-    _sceneView->setEditor(this);
-    _gameView->setEditor(this);
     connect(this, SIGNAL(sceneChanged()), _sceneView, SLOT(sceneChanged()));
     connect(this, SIGNAL(sceneChanged()), _gameView, SLOT(sceneChanged()));
+    connect(this, SIGNAL(selectionChanged()), _sceneView, SLOT(editorSelectionChanged()));
+    connect(_ui->actionAdd_Node, SIGNAL(triggered()), _sceneView, SLOT(actionAddNodeTriggered()));
 }
 
 EditorWindow::~EditorWindow()
@@ -187,25 +196,51 @@ void EditorWindow::setProjectWizard(ProjectWizard* projectWizard)
     connect(_projectWizard, SIGNAL(projectOpened(QString)), this, SLOT(projectOpened(QString)));
 }
 
-Project* EditorWindow::project() const
+Project* EditorWindow::getProject() const
 {
-    return _projectView->project();
+    return _projectView->getProject();
 }
 
-Scene* EditorWindow::scene() const
+ EditorWindow::EditMode EditorWindow::getEditMode() const
+ {
+     return _editMode;
+ }
+
+Scene* EditorWindow::getScene() const
 {
     return _scene;
+}
+
+SceneView* EditorWindow::getSceneView() const
+{
+    return _sceneView;
+}
+
+Vector2* EditorWindow::getSelectionBegin() const
+{
+    if (_selectionBegin->x < 0 || _selectionBegin->y < 0)
+        return nullptr;
+
+    return _selectionBegin;
+}
+
+Vector2* EditorWindow::getSelectionEnd() const
+{
+    if (_selectionEnd->x < 0 || _selectionEnd->y < 0)
+        return nullptr;
+
+    return _selectionEnd;
 }
 
 void EditorWindow::projectOpened(const QString& path)
 {
     _projectView->openProject(path);
-    Project* project = _projectView->project();
+    Project* project = _projectView->getProject();
     if (project)
     {
         setWindowTitle(QString(QLatin1String(EDITOR_WINDOW_TITLE)) +
                        QString(QLatin1String(" - ")) +
-                       _projectView->project()->name());
+                       _projectView->getProject()->getName());
     }
 }
 
@@ -233,7 +268,6 @@ void EditorWindow::actionNewTriggered()
 
 void EditorWindow::actionFullscreenToggled(bool enabled)
 {
-
     // TODO:
 }
 
@@ -270,3 +304,4 @@ void EditorWindow::actionShadingWireframeTriggered()
     _shadingButton->setDefaultAction(_ui->actionShading_Wireframe);
     // TODO:
 }
+

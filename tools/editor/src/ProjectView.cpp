@@ -10,6 +10,7 @@ ProjectView::ProjectView(QWidget* parent) : QWidget(parent),
     _ui->setupUi(this);
 
     _ui->lineEditSearch->addAction(QIcon(":/res/images/search.png"), QLineEdit::LeadingPosition);
+
     connect(_ui->lineEditSearch, SIGNAL(textChanged(QString)), this, SLOT(searchTextChanged(QString)));
     connect(_ui->treeView, SIGNAL(doubleClicked(QModelIndex)), _ui->treeView, SLOT(itemDoubleClicked(QModelIndex)));
     connect(_ui->actionOpen_File, SIGNAL(triggered(bool)), _ui->treeView, SLOT(openFileTriggered()));
@@ -65,7 +66,7 @@ void ProjectView::openProject(const QString& path)
         _ui->treeView->expand(_sortFilter->mapFromSource(_project->index(resFolderPath)));
 
         // Open the last scene editor for the project.        
-        openScene(path+ QString("/") + _project->scene());
+        openScene(path+ QString("/") + _project->getScenePath());
     }
 }
 
@@ -74,7 +75,7 @@ void ProjectView::closeProject()
     SAFE_DELETE(_project);
 }
 
-Project* ProjectView::project() const
+Project* ProjectView::getProject() const
 {
     return _project;
 }

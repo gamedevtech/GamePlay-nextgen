@@ -1,6 +1,10 @@
 #ifndef PROPERTIESVIEW_H
 #define PROPERTIESVIEW_H
 
+#include "gameplay.h"
+using namespace gameplay;
+#include "EditorWindow.h"
+#include "SceneView.h"
 #include <QWidget>
 
 namespace Ui {
@@ -27,8 +31,31 @@ public:
      */
     ~PropertiesView();
 
+    /**
+     * Sets the editor this scene view is connected to.
+     *
+     * @param editor The editor this scene view is connected to.
+     */
+    void setEditor(EditorWindow* editor);
+
+    /**
+     * Set the scene view for accessing the selected items in the scene.
+     *
+     * @param sceneView The scene view.
+     */
+    void setSceneView(SceneView* sceneView);
+
+public slots:
+    /**
+     * Handler when the node selected in the scene change.
+     */
+    void sceneSelectionChanged();
+
 private:
+
     Ui::PropertiesView* _ui;
+    EditorWindow* _editor;
+    SceneView* _sceneView;
 };
 
 #endif

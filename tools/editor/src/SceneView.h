@@ -7,6 +7,7 @@ using namespace gameplay;
 #include "SceneSortFilterProxyModel.h"
 #include <QWidget>
 #include <QStandardItem>
+#include <QStandardItemModel>
 
 namespace Ui {
 class SceneView;
@@ -14,8 +15,7 @@ class SceneView;
 
 
 /**
- * Defines the scene view to display the hierarchy of scene
- * including all node within it.
+ * Defines the scene view to display the hierarchy of scene.
  */
 class SceneView : public QWidget
 {
@@ -40,11 +40,33 @@ public:
      */
     void setEditor(EditorWindow* editor);
 
+    /**
+     * Gets the list of selected items in the scene.
+     *
+     * @return The list of selected items in the scene.
+     */
+    std::list<QStandardItem*>* getSelectedItems() const;
+
 public slots:
     /**
      * Handler when the scene changes.
      */
     void sceneChanged();
+
+    /**
+     * Handler for when the editor selection points change.
+     */
+    void editorSelectionChanged();
+
+    /**
+     * @see QItemSelectionModel::selectionChanged
+     */
+    void modelSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+
+    /**
+     * @see QAbstractItemModel::dataChanged
+     */
+    void modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
 
     /**
      * Handler for when the search filter text changes.
@@ -54,20 +76,22 @@ public slots:
     void searchTextChanged(const QString& text);
 
     /**
-     * @see QAbstractItemModel::dataChanged
+     * Handlers for when an action to add a node is triggered.
      */
-    void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
+    void actionAddNodeTriggered();
     
 private:
-    QStandardItem* createTreeItem(Node* node);
-
-    void visitNodeAddItem(Node* parent, QStandardItem* parentItem);
+    QStandardItem* createItem(Node* node);
+    QStandardItem* createHierarchy(Node* node);
+    void visitorAddItem(Node* parent, QStandardItem* parentItem);
+    void addToHiearchy(Node* node, QStandardItem* item);
 
     Ui::SceneView* _ui;
     EditorWindow* _editor;
     Scene* _scene;
-    QStandardItemModel* _model;
+    QStandardItemModel* _sceneModel;
     SceneSortFilterProxyModel* _sortFilter;
+    std::list<QStandardItem*>* _selectedItems;
 };
 
 #endif

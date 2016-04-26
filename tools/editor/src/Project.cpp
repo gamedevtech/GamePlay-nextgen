@@ -12,7 +12,6 @@ bool Project::_serializerActivated = false;
 
 Project::Project(QObject* parent) : QFileSystemModel(parent)
 {
-
 }
 
 Project::~Project()
@@ -24,7 +23,7 @@ Project* Project::create(const QString& path, const QString& name, QObject* pare
     Project* project = new Project(parent);
     project->_name = name.toStdString();
     project->_path = path.toStdString();
-    project->_scene = std::string(RESOURCE_DIR) + std::string("/") + std::string(SCENE_NEW) + std::string(SCENE_EXT);
+    project->_scenePath = std::string(RESOURCE_DIR) + std::string("/") + std::string(SCENE_NEW) + std::string(SCENE_EXT);
 
     // Create a resource directory
     QDir projectDir(path);
@@ -115,24 +114,24 @@ Project* Project::open(const QString& path, QObject* parent)
     return project;
 }
 
-QString Project::path()
+QString Project::getPath()
 {
     return QString::fromStdString(_path);
 }
 
-QString Project::name()
+QString Project::getName()
 {
     return QString::fromStdString(_name);
 }
 
-QString Project::scene()
+QString Project::getScenePath()
 {
-    return QString::fromStdString(_scene);
+    return QString::fromStdString(_scenePath);
 }
 
-void Project::setScene(const QString& scene)
+void Project::setScenePath(const QString& scenePath)
 {
-    _scene = scene.toStdString();
+    _scenePath = scenePath.toStdString();
 }
 
 QVariant Project::data(const QModelIndex& index, int role) const
@@ -173,13 +172,13 @@ const char* Project::getSerializedClassName() const
 void Project::serialize(Serializer* serializer)
 {
     serializer->writeString("name", _name.c_str(), "");
-    serializer->writeString("scene", _scene.c_str(), "");
+    serializer->writeString("scene", _scenePath.c_str(), "");
 }
 
 void Project::deserialize(Serializer* serializer)
 {
     serializer->readString("name", _name, "" );
-    serializer->readString("scene", _scene, "");
+    serializer->readString("scene", _scenePath, "");
 
     _path = serializer->getPath();
 }

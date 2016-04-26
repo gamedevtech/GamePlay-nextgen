@@ -73,7 +73,7 @@ void ProjectWizard::readProjects()
             if (project)
             {
                 QListWidgetItem* item = new QListWidgetItem();
-                item->setData(Qt::DisplayRole, project->name());
+                item->setData(Qt::DisplayRole, project->getName());
                 item->setData(Qt::UserRole, path);
                 _ui->listWidgetProjects->addItem(item);
                 SAFE_DELETE(project);

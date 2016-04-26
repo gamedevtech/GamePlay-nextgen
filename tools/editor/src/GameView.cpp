@@ -33,7 +33,7 @@ void GameView::resourcePathChanged(const QString& path)
 
 void GameView::sceneChanged()
 {
-    _scene = _editor->scene();
+    _scene = _editor->getScene();
 }
 
 

@@ -169,10 +169,8 @@ Serializer* Serializer::createReader(const char* path)
     
     Stream* stream = FileSystem::open(path);
     if (!stream)
-    {
-        GP_WARN("Failed to open file '%s'.", path);
         return NULL;
-    }
+
     Serializer* serializer = SerializerBinary::create(path, stream);
     if (!serializer)
     {

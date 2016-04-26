@@ -43,7 +43,6 @@ public:
 
 private:
     Mesh* createGridMesh(unsigned int lineCount);
-
     Model* createGridModel(unsigned int lineCount);
 
     Model* _gridModel;

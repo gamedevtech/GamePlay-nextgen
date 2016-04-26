@@ -9,7 +9,6 @@
 class Gizmo
 {
 public:
-
     /**
      * Destructor.
      */

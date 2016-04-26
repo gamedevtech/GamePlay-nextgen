@@ -7,10 +7,10 @@ QT += core gui widgets
 TARGET = gameplay-editor
 TEMPLATE = app
 CONFIG += c++11
-
 CONFIG(debug, debug|release): DEFINES += _DEBUG
 
-SOURCES +=  src/main.cpp\
+SOURCES += \
+    src/main.cpp \
     src/EditorWindow.cpp \
     src/SceneSortFilterProxyModel.cpp \
     src/SceneView.cpp \
@@ -24,7 +24,8 @@ SOURCES +=  src/main.cpp\
     src/ProjectSortFilterProxyModel.cpp \
     src/GizmoGrid.cpp
 
-HEADERS +=  src/EditorWindow.h \
+HEADERS += \
+    src/EditorWindow.h \
     src/ProjectTreeView.h \
     src/ProjectView.h \
     src/PropertiesView.h \
@@ -38,7 +39,8 @@ HEADERS +=  src/EditorWindow.h \
     src/GizmoGrid.h \
     src/Gizmo.h
 
-FORMS +=    src/EditorWindow.ui \
+FORMS += \
+    src/EditorWindow.ui \
     src/ProjectView.ui \
     src/PropertiesView.ui \
     src/SceneView.ui \
@@ -47,6 +49,7 @@ FORMS +=    src/EditorWindow.ui \
 RESOURCES += gameplay-editor.qrc
 
 INCLUDEPATH += src
+INCLUDEPATH += ../qtpropertybrowser/src
 INCLUDEPATH += ../../gameplay/src
 INCLUDEPATH += ../../external-deps/include
 DEFINES += GP_USE_GAMEPAD
@@ -66,13 +69,16 @@ linux: INCLUDEPATH += /usr/lib/x86_64-linux-gnu/glib-2.0/include
 linux: INCLUDEPATH += /usr/include/pixman-1
 linux: INCLUDEPATH += /usr/include/libpng12
 linux: INCLUDEPATH += /usr/include/harfbuzz
-linux: LIBS += -L$$PWD/../../gameplay/Debug/ -lgameplay
+linux: CONFIG(debug, debug|release): LIBS += -L$$PWD/../../gameplay/Debug/ -lgameplay
+linux: CONFIG(release, debug|release): LIBS += -L$$PWD/../../gameplay/Release/ -lgameplay
 linux: LIBS += -L$$PWD/../../external-deps/lib/linux/x86_64/ -lgameplay-deps
 linux: LIBS += -lm -lGL -lrt -ldl -lX11 -lpthread -lgtk-x11-2.0 -lglib-2.0 -lgobject-2.0
 linux: QMAKE_POST_LINK += $$quote(rsync -rau $$PWD/../../gameplay/res/shaders ../res$$escape_expand(\n\t))
 linux: QMAKE_POST_LINK += $$quote(rsync -rau $$PWD/../../gameplay/res/ui ../res$$escape_expand(\n\t))
 
 macx: QMAKE_CXXFLAGS += -x c++ -stdlib=libc++ -w -arch x86_64
+macx: CONFIG(debug, debug|release): LIBS += -L$$PWD/../../gameplay/Debug/ -lgameplay
+macx: CONFIG(release, debug|release):LIBS += -L$$PWD/../../gameplay/Release/ -lgameplay
 macx: LIBS += -L$$PWD/../../external-deps/lib/macosx/x86_64/ -lgameplay-deps
 macx: LIBS += -F/System/Library/Frameworks -framework GameKit
 macx: LIBS += -F/System/Library/Frameworks -framework IOKit
@@ -81,8 +87,6 @@ macx: LIBS += -F/System/Library/Frameworks -framework OpenAL
 macx: LIBS += -F/System/Library/Frameworks -framework OpenGL
 macx: LIBS += -F/System/Library/Frameworks -framework Cocoa
 macx: LIBS += -F/System/Library/Frameworks -framework Foundation
-macx: LIBS += -L$$PWD/../../gameplay/Debug/ -lgameplay
-macx: PRE_TARGETDEPS += $$PWD/../../external-deps/lib/macosx/x86_64/libgameplay-deps.a
 macx: QMAKE_POST_LINK += $$quote(rsync -rau $$PWD/../../gameplay/res/shaders ../res$$escape_expand(\n\t))
 macx: QMAKE_POST_LINK += $$quote(rsync -rau $$PWD/../../gameplay/res/ui ../res$$escape_expand(\n\t))
 macx: QMAKE_INFO_PLIST = gameplay-editor.plist

@@ -46,28 +46,28 @@ public:
      *
      * @return The project name.
      */
-    QString name();
+    QString getName();
 
     /**
      * Gets the project path.
      *
      * @return The project path.
      */
-    QString path();
+    QString getPath();
 
     /**
      * Gets the last scene opened in the project.
      *
      * @return The last scene opened in the project.
      */
-    QString scene();
+    QString getScenePath();
 
     /**
      * Sets the path of the scene currently open in the project.
      *
      * @param scene The path of the scene currently open in the project.
      */
-    void setScene(const QString& scene);
+    void setScenePath(const QString& scene);
 
     /**
      * @see QAbstractItemModel::data
@@ -98,7 +98,7 @@ private:
     static bool _serializerActivated;
     std::string _path;
     std::string _name;
-    std::string _scene;
+    std::string _scenePath;
 };
 
 #endif
