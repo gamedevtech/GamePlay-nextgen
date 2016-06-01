@@ -57,7 +57,7 @@ void ProjectView::openProject(const QString& path)
 
         // Header sizing
         _ui->treeView->hideColumn(2);
-        _ui->treeView->setColumnWidth(0, 700);
+        _ui->treeView->setColumnWidth(0, 600);
         _ui->treeView->setColumnWidth(1, 120);
         _ui->treeView->setColumnWidth(2, 120);
 

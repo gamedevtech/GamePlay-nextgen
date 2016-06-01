@@ -7,6 +7,8 @@
         <file>res/images/css-arrow-left.png</file>
         <file>res/images/css-arrow-right-disabled.png</file>
         <file>res/images/css-arrow-right.png</file>
+        <file>res/images/css-arrow-properties-closed.png</file>
+        <file>res/images/css-arrow-properties-open.png</file>
         <file>res/images/css-arrow-up-disabled.png</file>
         <file>res/images/css-arrow-up.png</file>
         <file>res/images/css-branch-closed-on.png</file>
@@ -93,6 +95,9 @@
         <file>res/images/transform-move.png</file>
         <file>res/images/transform-rotate.png</file>
         <file>res/images/transform-scale.png</file>
+        <file>res/images/transform-x.png</file>
+        <file>res/images/transform-y.png</file>
+        <file>res/images/transform-z.png</file>
         <file>res/images/view-fullscreen.png</file>
         <file>res/images/wizard-open.png</file>
         <file>res/images/wizard-new.png</file>
@@ -110,5 +115,7 @@
         <file>res/shaders/terrain.vert</file>
         <file>res/shaders/textured.frag</file>
         <file>res/shaders/textured.vert</file>
+        <file>res/images/redo.png</file>
+        <file>res/images/undo.png</file>
     </qresource>
 </RCC>

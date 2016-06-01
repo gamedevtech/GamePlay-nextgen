@@ -28,10 +28,10 @@ QWidget:item:selected
 
 QCheckBox
 {
-    spacing: 5px;
+    spacing: 2px;
     outline: none;
     color: #bbb;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 QCheckBox:disabled
@@ -42,12 +42,12 @@ QCheckBox:disabled
 QCheckBox::indicator,
 QGroupBox::indicator
 {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
 }
 QGroupBox::indicator
 {
-    margin-left: 2px;
+    margin-left: 1px;
 }
 
 QCheckBox::indicator:unchecked,
@@ -706,28 +706,24 @@ QAbstractSpinBox
     background-color: #201F1F;
     color: silver;
     border-radius: 2px;
-    min-width: 75px;
+    min-width: 50px;
 }
 
 QAbstractSpinBox:up-button
 {
     background-color: transparent;
-    subcontrol-origin: border;
-    subcontrol-position: center right;
 }
 
 QAbstractSpinBox:down-button
 {
     background-color: transparent;
-    subcontrol-origin: border;
-    subcontrol-position: center left;
 }
 
 QAbstractSpinBox::up-arrow,QAbstractSpinBox::up-arrow:disabled,QAbstractSpinBox::up-arrow:off
 {
     image: url(:/res/images/css-arrow-up-disabled.png);
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
 }
 QAbstractSpinBox::up-arrow:hover
 {
@@ -737,8 +733,8 @@ QAbstractSpinBox::up-arrow:hover
 QAbstractSpinBox::down-arrow,QAbstractSpinBox::down-arrow:disabled,QAbstractSpinBox::down-arrow:off
 {
     image: url(:/res/images/css-arrow-down-disabled.png);
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
 }
 
 QAbstractSpinBox::down-arrow:hover

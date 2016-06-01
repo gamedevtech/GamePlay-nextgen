@@ -4,8 +4,8 @@
 #include "ProjectWizard.h"
 #include "ProjectTreeView.h"
 #include "ProjectView.h"
-#include "SceneView.h"
 #include "PropertiesView.h"
+#include "SceneView.h"
 #include "ui_EditorWindow.h"
 #include <QtWidgets>
 
@@ -177,7 +177,9 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     connect(this, SIGNAL(sceneChanged()), _sceneView, SLOT(sceneChanged()));
     connect(this, SIGNAL(sceneChanged()), _gameView, SLOT(sceneChanged()));
     connect(this, SIGNAL(selectionChanged()), _sceneView, SLOT(editorSelectionChanged()));
+    connect(_sceneView, SIGNAL(sceneSelectionChanged()), _propertiesView, SLOT(sceneSelectionChanged()));
     connect(_ui->actionAdd_Node, SIGNAL(triggered()), _sceneView, SLOT(actionAddNodeTriggered()));
+
 }
 
 EditorWindow::~EditorWindow()

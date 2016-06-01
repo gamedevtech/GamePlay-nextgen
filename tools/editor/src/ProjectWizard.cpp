@@ -66,7 +66,7 @@ void ProjectWizard::readProjects()
     if (_recentProjects.size() > 0)
     {
         _ui->listWidgetProjects->clear();
-        for (unsigned int i = 0; i < _recentProjects.size(); i++)
+        for (int i = 0; i < _recentProjects.size(); i++)
         {
             const QString path = _recentProjects.at(i);
             Project* project = Project::open(path);

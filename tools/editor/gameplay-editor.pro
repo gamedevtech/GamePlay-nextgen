@@ -12,39 +12,40 @@ CONFIG(debug, debug|release): DEFINES += _DEBUG
 SOURCES += \
     src/main.cpp \
     src/EditorWindow.cpp \
-    src/SceneSortFilterProxyModel.cpp \
-    src/SceneView.cpp \
-    src/ProjectView.cpp \
-    src/ProjectTreeView.cpp \
     src/GameView.cpp \
-    src/PropertiesView.cpp \
-    src/ProjectWizard.cpp \
-    src/ProjectWizardItemDelegate.cpp \
+    src/GizmoGrid.cpp \
     src/Project.cpp \
     src/ProjectSortFilterProxyModel.cpp \
-    src/GizmoGrid.cpp
+    src/ProjectTreeView.cpp \
+    src/ProjectView.cpp \
+    src/ProjectWizard.cpp \
+    src/ProjectWizardItemDelegate.cpp \
+    src/PropertiesView.cpp \
+    src/SceneSortFilterProxyModel.cpp \
+    src/SceneView.cpp
+
 
 HEADERS += \
     src/EditorWindow.h \
-    src/ProjectTreeView.h \
-    src/ProjectView.h \
-    src/PropertiesView.h \
-    src/SceneSortFilterProxyModel.h \
     src/SceneView.h \
+    src/Gizmo.h \
+    src/GizmoGrid.h \
     src/GameView.h \
-    src/ProjectWizard.h \
-    src/ProjectWizardItemDelegate.h \
     src/Project.h \
     src/ProjectSortFilterProxyModel.h \
-    src/GizmoGrid.h \
-    src/Gizmo.h
+    src/ProjectTreeView.h \
+    src/ProjectView.h \
+    src/ProjectWizard.h \
+    src/ProjectWizardItemDelegate.h \
+    src/PropertiesView.h \
+    src/SceneSortFilterProxyModel.h
 
 FORMS += \
     src/EditorWindow.ui \
     src/ProjectView.ui \
     src/PropertiesView.ui \
-    src/SceneView.ui \
-    src/ProjectWizard.ui
+    src/ProjectWizard.ui \
+    src/SceneView.ui
 
 RESOURCES += gameplay-editor.qrc
 

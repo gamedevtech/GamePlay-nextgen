@@ -46,12 +46,14 @@ public:
     void setSceneView(SceneView* sceneView);
 
 public slots:
+
     /**
      * Handler when the node selected in the scene change.
      */
     void sceneSelectionChanged();
 
 private:
+    void setupEditNodeProperties();
 
     Ui::PropertiesView* _ui;
     EditorWindow* _editor;

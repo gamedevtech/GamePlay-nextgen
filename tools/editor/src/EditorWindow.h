@@ -12,9 +12,9 @@ class EditorWindow;
 class ProjectWizard;
 class ProjectView;
 class GameView;
-class SceneView;
 class PropertiesView;
 class Project;
+class SceneView;
 
 
 /**

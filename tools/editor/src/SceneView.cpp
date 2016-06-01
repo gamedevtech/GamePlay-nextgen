@@ -1,5 +1,6 @@
 #include "SceneView.h"
 #include "ui_SceneView.h"
+#include <QWidget>
 #include <QMenu>
 #include <QItemSelectionRange>
 
@@ -55,7 +56,6 @@ SceneView::SceneView(QWidget* parent) : QWidget(parent),
     connect(_ui->treeView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(modelSelectionChanged(QItemSelection, QItemSelection)));
     connect(_ui->actionAdd_Node, SIGNAL(triggered()), this, SLOT(actionAddNodeTriggered()));
 }
-
 SceneView::~SceneView()
 {
     delete _ui;
@@ -92,23 +92,23 @@ void SceneView::editorSelectionChanged()
     // TODO
     // Project the point or region against all the nodes in the scene
     // updating the selected nodes list.
-
 }
 
 void SceneView::modelSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
-    for (unsigned int i = 0; i < deselected.size(); i++)
+    for (int i = 0; i < deselected.size(); i++)
     {
         QModelIndex index = deselected.at(i).topLeft();
         QStandardItem* item = _sceneModel->itemFromIndex(_sortFilter->mapToSource(index));
         _selectedItems->remove(item);
     }
-    for (unsigned int i = 0; i < selected.size(); i++)
+    for (int i = 0; i < selected.size(); i++)
     {
         QModelIndex index = selected.at(i).topLeft();
         QStandardItem* item = _sceneModel->itemFromIndex(_sortFilter->mapToSource(index));
         _selectedItems->push_back(item);
     }
+
 }
 
 void SceneView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)

@@ -18,6 +18,7 @@ class ProjectView : public QWidget
 {
     Q_OBJECT
     friend class ProjectTreeView;
+
 public:
     /**
      * Constructor.

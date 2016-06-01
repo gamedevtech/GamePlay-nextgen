@@ -79,7 +79,14 @@ public slots:
      * Handlers for when an action to add a node is triggered.
      */
     void actionAddNodeTriggered();
-    
+
+signals:
+
+    /**
+     * Signal emitted when the  nodes selected have changed.
+     */
+    void sceneSelectionChanged();
+
 private:
     QStandardItem* createItem(Node* node);
     QStandardItem* createHierarchy(Node* node);
@@ -93,5 +100,6 @@ private:
     SceneSortFilterProxyModel* _sortFilter;
     std::list<QStandardItem*>* _selectedItems;
 };
+
 
 #endif
