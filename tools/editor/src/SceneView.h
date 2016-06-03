@@ -3,16 +3,19 @@
 
 #include "gameplay.h"
 using namespace gameplay;
-#include "EditorWindow.h"
+
+#include "SceneTreeView.h"
 #include "SceneSortFilterProxyModel.h"
 #include <QWidget>
 #include <QStandardItem>
 #include <QStandardItemModel>
 
+
 namespace Ui {
 class SceneView;
 }
-
+class EditorWindow;
+class SceneTreeView;
 
 /**
  * Defines the scene view to display the hierarchy of scene.
@@ -20,6 +23,7 @@ class SceneView;
 class SceneView : public QWidget
 {
     Q_OBJECT
+    friend class SceneTreeView;
 public:
     /**
      * Constructor.
@@ -34,9 +38,9 @@ public:
     ~SceneView();
 
     /**
-     * Sets the editor this scene view is connected to.
+     * Sets the editor this view is connected to.
      *
-     * @param editor The editor this scene view is connected to.
+     * @param editor The editor this view is connected to.
      */
     void setEditor(EditorWindow* editor);
 
@@ -45,11 +49,12 @@ public:
      *
      * @return The list of selected items in the scene.
      */
-    std::list<QStandardItem*>* getSelectedItems() const;
+    std::list<QStandardItem*>* getItemsSelected() const;
+
 
 public slots:
     /**
-     * Handler when the scene changes.
+     * Handler when the scene changed.
      */
     void sceneChanged();
 
@@ -80,12 +85,18 @@ public slots:
      */
     void actionAddNodeTriggered();
 
-signals:
+protected:
+    /**
+     * Gets the ui associated with this view.
+     *
+     * @return The view ui.
+     */
+    Ui::SceneView* ui();
 
     /**
-     * Signal emitted when the  nodes selected have changed.
+     * Deletes the items selected.
      */
-    void sceneSelectionChanged();
+    void deleteItemsSelected();
 
 private:
     QStandardItem* createItem(Node* node);
@@ -96,10 +107,9 @@ private:
     Ui::SceneView* _ui;
     EditorWindow* _editor;
     Scene* _scene;
+    SceneSortFilterProxyModel* _sceneSortFilter;
     QStandardItemModel* _sceneModel;
-    SceneSortFilterProxyModel* _sortFilter;
-    std::list<QStandardItem*>* _selectedItems;
+    std::list<QStandardItem*>* _itemsSelected;
 };
-
 
 #endif

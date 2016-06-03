@@ -1,15 +1,15 @@
 #ifndef PROJECTVIEW_H
 #define PROJECTVIEW_H
 
-#include "EditorWindow.h"
 #include "ProjectSortFilterProxyModel.h"
 #include <QWidget>
+
 
 namespace Ui {
 class ProjectView;
 }
 class Project;
-
+class EditorWindow;
 
 /**
  * Defines a project view showing files visible in the project directory.

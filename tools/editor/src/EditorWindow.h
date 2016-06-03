@@ -3,6 +3,8 @@
 
 #include "gameplay.h"
 using namespace gameplay;
+
+#include "SceneView.h"
 #include <QMainWindow>
 #include <QToolButton>
 
@@ -14,7 +16,6 @@ class ProjectView;
 class GameView;
 class PropertiesView;
 class Project;
-class SceneView;
 
 
 /**
@@ -84,6 +85,12 @@ public:
      * @return The scene view.
      */
     SceneView* getSceneView() const;
+
+    /**
+     * Gets the properties view.
+     * @return The properties view.
+     */
+    PropertiesView* getProperiesView() const;
 
     /**
      * Gets the begin screen position for a selection or nullptr for no selection.

@@ -12,6 +12,10 @@ ProjectTreeView::ProjectTreeView(QWidget* parent) : QTreeView(parent),
     setSortingEnabled(true);
 }
 
+ProjectTreeView::~ProjectTreeView()
+{
+}
+
 void ProjectTreeView::itemDoubleClicked(const QModelIndex& index)
 {
     openSelectedItem();
@@ -45,6 +49,7 @@ void ProjectTreeView::contextMenuEvent(QContextMenuEvent* event)
     menu.addAction(ui->actionNew_Folder);
     menu.addSeparator();
     menu.addAction(ui->actionImport_File);
+
     menu.exec(event->globalPos());
 }
 

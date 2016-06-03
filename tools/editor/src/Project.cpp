@@ -7,6 +7,7 @@
 #define SCENE_EXT ".scene"
 #define SCENE_NEW "Scene"
 #define NODE_NEW "Node"
+
 bool Project::_serializerActivated = false;
 
 

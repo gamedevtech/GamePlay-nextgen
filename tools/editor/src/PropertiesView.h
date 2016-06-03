@@ -3,14 +3,15 @@
 
 #include "gameplay.h"
 using namespace gameplay;
-#include "EditorWindow.h"
-#include "SceneView.h"
+
 #include <QWidget>
+
 
 namespace Ui {
 class PropertiesView;
 }
-
+class EditorWindow;
+class SceneView;
 
 /**
  * Defines a view for diplaying and editing scene objects.
@@ -32,9 +33,9 @@ public:
     ~PropertiesView();
 
     /**
-     * Sets the editor this scene view is connected to.
+     * Sets the editor this view is connected to.
      *
-     * @param editor The editor this scene view is connected to.
+     * @param editor The editor this view is connected to.
      */
     void setEditor(EditorWindow* editor);
 
@@ -45,12 +46,19 @@ public:
      */
     void setSceneView(SceneView* sceneView);
 
-public slots:
-
     /**
      * Handler when the node selected in the scene change.
      */
-    void sceneSelectionChanged();
+    void nodeSelectionChanged();
+
+public slots:
+    /**
+     * Handler when the node name changes.
+     *
+     * @param name The updated name.
+     */
+    void nodeNameChanged(const QString& name);
+
 
 private:
     void setupEditNodeProperties();

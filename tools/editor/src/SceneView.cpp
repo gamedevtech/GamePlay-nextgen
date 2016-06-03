@@ -1,7 +1,8 @@
 #include "SceneView.h"
 #include "ui_SceneView.h"
-#include <QWidget>
-#include <QMenu>
+#include "EditorWindow.h"
+#include "PropertiesView.h"
+#include <QtWidgets>
 #include <QItemSelectionRange>
 
 #define NODE_NEW "Node"
@@ -9,8 +10,8 @@
 
 SceneView::SceneView(QWidget* parent) : QWidget(parent),
     _ui(new Ui::SceneView), _editor(nullptr),
-    _scene(nullptr), _sceneModel(nullptr),
-    _sortFilter(nullptr), _selectedItems(nullptr)
+    _scene(nullptr), _sceneSortFilter(nullptr),
+    _sceneModel(nullptr), _itemsSelected(nullptr)
 {
     _ui->setupUi(this);
 
@@ -39,29 +40,31 @@ SceneView::SceneView(QWidget* parent) : QWidget(parent),
 
     _sceneModel = new QStandardItemModel();
     // Sort and search filter
-    _sortFilter = new SceneSortFilterProxyModel();
-    _sortFilter->setDynamicSortFilter(true);
-    _sortFilter->setFilterKeyColumn(0);
-    _sortFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    _sortFilter->setSourceModel(_sceneModel);
+    _sceneSortFilter = new SceneSortFilterProxyModel();
+    _sceneSortFilter->setDynamicSortFilter(true);
+    _sceneSortFilter->setFilterKeyColumn(0);
+    _sceneSortFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    _sceneSortFilter->setSourceModel(_sceneModel);
 
-    _selectedItems = new std::list<QStandardItem*>();
+    _itemsSelected = new std::list<QStandardItem*>();
 
     _ui->treeView->setUniformRowHeights(true);
     _ui->treeView->setSortingEnabled(false);
-    _ui->treeView->setModel(_sortFilter);
+    _ui->treeView->setModel(_sceneSortFilter);
 
-    connect(_ui->lineEditSearch, SIGNAL(textChanged(QString)), this, SLOT(searchTextChanged(QString)));
-    connect(_sceneModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(modelDataChanged(QModelIndex, QModelIndex)));
-    connect(_ui->treeView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(modelSelectionChanged(QItemSelection, QItemSelection)));
-    connect(_ui->actionAdd_Node, SIGNAL(triggered()), this, SLOT(actionAddNodeTriggered()));
+    connect(_ui->lineEditSearch, &QLineEdit::textChanged, this, &SceneView::searchTextChanged);
+    connect(_sceneModel, &QStandardItemModel::dataChanged, this, &SceneView::modelDataChanged);
+    connect(_ui->treeView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &SceneView::modelSelectionChanged);
+    connect(_ui->actionAdd_Node, &QAction::triggered, this, &SceneView::actionAddNodeTriggered);
+    connect(_ui->actionDelete_Node, &QAction::triggered, this, &SceneView::deleteItemsSelected);
 }
+
 SceneView::~SceneView()
 {
     delete _ui;
     delete _sceneModel;
-    _selectedItems->clear();
-    delete _selectedItems;
+    _itemsSelected->clear();
+    delete _itemsSelected;
 }
 
 void SceneView::setEditor(EditorWindow* editor)
@@ -69,9 +72,9 @@ void SceneView::setEditor(EditorWindow* editor)
     _editor = editor;
 }
 
-std::list<QStandardItem*>* SceneView::getSelectedItems() const
+std::list<QStandardItem*>* SceneView::getItemsSelected() const
 {
-    return _selectedItems;
+    return _itemsSelected;
 }
 
 void SceneView::sceneChanged()
@@ -99,16 +102,16 @@ void SceneView::modelSelectionChanged(const QItemSelection& selected, const QIte
     for (int i = 0; i < deselected.size(); i++)
     {
         QModelIndex index = deselected.at(i).topLeft();
-        QStandardItem* item = _sceneModel->itemFromIndex(_sortFilter->mapToSource(index));
-        _selectedItems->remove(item);
+        QStandardItem* item = _sceneModel->itemFromIndex(_sceneSortFilter->mapToSource(index));
+        _itemsSelected->remove(item);
     }
     for (int i = 0; i < selected.size(); i++)
     {
         QModelIndex index = selected.at(i).topLeft();
-        QStandardItem* item = _sceneModel->itemFromIndex(_sortFilter->mapToSource(index));
-        _selectedItems->push_back(item);
+        QStandardItem* item = _sceneModel->itemFromIndex(_sceneSortFilter->mapToSource(index));
+        _itemsSelected->push_back(item);
     }
-
+    _editor->getProperiesView()->nodeSelectionChanged();
 }
 
 void SceneView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
@@ -117,6 +120,32 @@ void SceneView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& 
     Node* node = (Node*) userData.toLongLong();
     QVariant displayData = topLeft.data(Qt::DisplayRole);
     node->setId(displayData.toString().toLatin1().constData());
+    _editor->getProperiesView()->nodeSelectionChanged();
+}
+
+Ui::SceneView* SceneView::ui()
+{
+    return _ui;
+}
+
+void SceneView::deleteItemsSelected()
+{
+    while(!_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
+    {
+        QModelIndex index = _ui->treeView->selectionModel()->selectedIndexes().first();
+
+        // Delete the node hosted in the user data
+        QStandardItem* itemSelected = _sceneModel->itemFromIndex(_sceneSortFilter->mapToSource(index));
+        QVariant userData = itemSelected->data(Qt::UserRole + 1);
+        Node* nodeSelected = (Node*)userData.toLongLong();
+
+        // Delete the item selected
+        if (!_sceneModel->removeRow(index.row(), index.parent()))
+        {
+            printf("failed");
+        }
+    }
+    _itemsSelected->clear();
 }
 
 QStandardItem* SceneView::createItem(Node* node)
@@ -158,7 +187,7 @@ void SceneView::visitorAddItem(Node* parent, QStandardItem* parentItem)
 void SceneView::addToHiearchy(Node* node, QStandardItem* item)
 {
     // If there is no nodes selected the just add to the scene
-    if (_selectedItems->size() == 0)
+    if (_itemsSelected->size() == 0)
     {
         _sceneModel->appendRow(item);
         _scene->addNode(node);
@@ -166,20 +195,20 @@ void SceneView::addToHiearchy(Node* node, QStandardItem* item)
     else
     {
         // If any nodes are selected then add to the first selected and expand the parent
-        QStandardItem* selectedItem = _selectedItems->front();
-        selectedItem->appendRow(item);
-        _ui->treeView->setExpanded(_sortFilter->mapFromSource(selectedItem->index()), true);
-        QVariant userData = selectedItem->data(Qt::UserRole + 1);
-        Node* selectedNode = (Node*)userData.toLongLong();
-        selectedNode->addChild(node);
+        QStandardItem* itemSelected = _itemsSelected->front();
+        itemSelected->appendRow(item);
+        _ui->treeView->setExpanded(_sceneSortFilter->mapFromSource(itemSelected->index()), true);
+        QVariant userData = itemSelected->data(Qt::UserRole + 1);
+        Node* nodeSelected = (Node*)userData.toLongLong();
+        nodeSelected->addChild(node);
+        _ui->treeView->selectionModel()->setCurrentIndex(_sceneSortFilter->mapFromSource(itemSelected->index()),
+                                                         QItemSelectionModel::ClearAndSelect);
     }
-    _ui->treeView->selectionModel()->setCurrentIndex(_sortFilter->mapFromSource(item->index()),
-                                                     QItemSelectionModel::ClearAndSelect);
 }
 
 void SceneView::searchTextChanged(const QString& text)
 {
-    _sortFilter->setFilterRegExp(text);
+    _sceneSortFilter->setFilterRegExp(text);
 }
 
 void SceneView::actionAddNodeTriggered()

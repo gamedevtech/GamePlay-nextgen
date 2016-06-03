@@ -1,4 +1,5 @@
 #include "GameView.h"
+#include "EditorWindow.h"
 #include <QtWidgets>
 
 

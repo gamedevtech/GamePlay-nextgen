@@ -21,6 +21,11 @@ public:
      */
     explicit ProjectTreeView(QWidget* parent = nullptr);
 
+    /**
+     * Destructor.
+     */
+    ~ProjectTreeView();
+
 public slots:
     /**
      * Slot for an open file is triggered.
@@ -46,7 +51,6 @@ private:
     void openSelectedItem();
 
     ProjectView* _projectView;
-    
 };
 
 #endif

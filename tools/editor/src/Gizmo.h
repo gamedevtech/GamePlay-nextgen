@@ -1,6 +1,7 @@
 #ifndef GIZMO_H
 #define GIZMO_H
 
+
 /**
  * Defines a class for rendering visual indicators
  * to help with context based editing in the editor

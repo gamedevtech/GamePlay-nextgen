@@ -36,13 +36,13 @@ bool ProjectWizard::initialize()
 
     _ui->listWidgetProjects->setItemDelegate(&_itemDelegate);
 
-    connect(_ui->pushButtonNew, SIGNAL(pressed()), this, SLOT(newProjectPressed()));
-    connect(_ui->pushButtonOpen, SIGNAL(pressed()), this, SLOT(openProjectPressed()));
-    connect(_ui->pushButtonCreate, SIGNAL(pressed()), this, SLOT(createProjectPressed()));
-    connect(_ui->pushButtonCancel, SIGNAL(pressed()), this, SLOT(cancelProjectPressed()));
-    connect(_ui->lineEditProjectName, SIGNAL(textChanged(QString)), this, SLOT(projectNameTextChanged()));
-    connect(_ui->pushButtonProjectDirectory, SIGNAL(pressed()), this, SLOT(projectDirectoryPressed()));
-    connect(_ui->lineEditProjectDirectory, SIGNAL(textChanged(QString)), this, SLOT(projectDirectoryTextChanged()));
+    connect(_ui->pushButtonNew, &QPushButton::pressed, this, &ProjectWizard::newProjectPressed);
+    connect(_ui->pushButtonOpen, &QPushButton::pressed, this, &ProjectWizard::openProjectPressed);
+    connect(_ui->pushButtonCreate, &QPushButton::pressed, this, &ProjectWizard::createProjectPressed);
+    connect(_ui->pushButtonCancel, &QPushButton::pressed, this, &ProjectWizard::cancelProjectPressed);
+    connect(_ui->lineEditProjectName, &QLineEdit::textChanged, this, &ProjectWizard::projectNameTextChanged);
+    connect(_ui->pushButtonProjectDirectory, &QPushButton::pressed, this, &ProjectWizard::projectDirectoryPressed);
+    connect(_ui->lineEditProjectDirectory, &QLineEdit::textChanged, this, &ProjectWizard::projectDirectoryTextChanged);
 
     readProjects();
 

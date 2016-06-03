@@ -64,7 +64,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTreeView" name="treeView">
+    <widget class="SceneTreeView" name="treeView">
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
@@ -311,7 +311,29 @@
     <string>Meta+N</string>
    </property>
   </action>
+  <action name="actionDelete_Node">
+   <property name="icon">
+    <iconset resource="../gameplay-editor.qrc">
+     <normaloff>:/res/images/delete.png</normaloff>:/res/images/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete Node</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+Del</string>
+   </property>
+  </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SceneTreeView</class>
+   <extends>QTreeView</extends>
+   <header>SceneTreeView.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../gameplay-editor.qrc"/>
  </resources>

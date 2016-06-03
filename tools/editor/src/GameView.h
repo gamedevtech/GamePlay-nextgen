@@ -3,11 +3,13 @@
 
 #include "gameplay.h"
 using namespace gameplay;
-#include "EditorWindow.h"
+
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QMouseEvent>
 #include <QKeyEvent>
+
+class EditorWindow;
 
 
 /**

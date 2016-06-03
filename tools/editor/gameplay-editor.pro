@@ -22,12 +22,11 @@ SOURCES += \
     src/ProjectWizardItemDelegate.cpp \
     src/PropertiesView.cpp \
     src/SceneSortFilterProxyModel.cpp \
+    src/SceneTreeView.cpp \
     src/SceneView.cpp
-
 
 HEADERS += \
     src/EditorWindow.h \
-    src/SceneView.h \
     src/Gizmo.h \
     src/GizmoGrid.h \
     src/GameView.h \
@@ -38,7 +37,9 @@ HEADERS += \
     src/ProjectWizard.h \
     src/ProjectWizardItemDelegate.h \
     src/PropertiesView.h \
-    src/SceneSortFilterProxyModel.h
+    src/SceneSortFilterProxyModel.h \
+    src/SceneTreeView.h \
+    src/SceneView.h
 
 FORMS += \
     src/EditorWindow.ui \

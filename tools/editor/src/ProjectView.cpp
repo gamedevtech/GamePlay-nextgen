@@ -1,6 +1,7 @@
 #include "ProjectView.h"
 #include "Project.h"
 #include "ui_ProjectView.h"
+#include "EditorWindow.h"
 #include <QtWidgets>
 #include <QFileSystemModel>
 
@@ -11,20 +12,15 @@ ProjectView::ProjectView(QWidget* parent) : QWidget(parent),
 
     _ui->lineEditSearch->addAction(QIcon(":/res/images/search.png"), QLineEdit::LeadingPosition);
 
-    connect(_ui->lineEditSearch, SIGNAL(textChanged(QString)), this, SLOT(searchTextChanged(QString)));
-    connect(_ui->treeView, SIGNAL(doubleClicked(QModelIndex)), _ui->treeView, SLOT(itemDoubleClicked(QModelIndex)));
-    connect(_ui->actionOpen_File, SIGNAL(triggered(bool)), _ui->treeView, SLOT(openFileTriggered()));
+    connect(_ui->lineEditSearch, &QLineEdit::textChanged, this, &ProjectView::searchTextChanged);
+    connect(_ui->treeView, &QTreeView::doubleClicked, _ui->treeView, &ProjectTreeView::itemDoubleClicked);
+    connect(_ui->actionOpen_File, &QAction::triggered, _ui->treeView, &ProjectTreeView::openFileTriggered);
 }
 
 ProjectView::~ProjectView()
 {
     delete _ui;
     closeProject();
-}
-
-Ui::ProjectView* ProjectView::ui()
-{
-    return _ui;
 }
 
 void ProjectView::openProject(const QString& path)
@@ -83,6 +79,11 @@ Project* ProjectView::getProject() const
 ProjectSortFilterProxyModel* ProjectView::sortFilter() const
 {
     return _sortFilter;
+}
+
+Ui::ProjectView* ProjectView::ui()
+{
+    return _ui;
 }
 
 void ProjectView::openScene(const QString& path)

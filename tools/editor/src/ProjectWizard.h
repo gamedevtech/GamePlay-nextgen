@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QStyledItemDelegate>
 
+
 namespace Ui {
 class ProjectWizard;
 }

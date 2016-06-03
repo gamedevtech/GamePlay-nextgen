@@ -165,21 +165,19 @@ EditorWindow::EditorWindow(QWidget* parent) : QMainWindow(parent),
     _selectionBegin = new Vector2(-1, -1);
     _selectionEnd = new Vector2(-1, -1);
 
-    connect(_ui->actionOpen, SIGNAL(triggered()), this, SLOT(actionOpenTriggered()));
-    connect(_ui->actionNew, SIGNAL(triggered()), this, SLOT(actionNewTriggered()));
-    connect(_ui->actionFullscreen, SIGNAL(toggled(bool)), this, SLOT(actionFullscreenToggled(bool)));
-    connect(_ui->actionTransformMode_World, SIGNAL(triggered()), this, SLOT(actionTransformModeWorldTriggered()));
-    connect(_ui->actionTransformMode_Local, SIGNAL(triggered()), this, SLOT(actionTransformModeLocalTriggered()));
-    connect(_ui->actionShading_Lit, SIGNAL(triggered()), this, SLOT(actionShadingLitTriggered()));
-    connect(_ui->actionShading_Unlit, SIGNAL(triggered()), this, SLOT(actionShadingUnlitTriggered()));
-    connect(_ui->actionShading_Wireframe, SIGNAL(triggered()), this, SLOT(actionShadingWireframeTriggered()));
-    connect(_projectView, SIGNAL(sceneOpened(QString)), this, SLOT(sceneOpened(QString)));
-    connect(this, SIGNAL(sceneChanged()), _sceneView, SLOT(sceneChanged()));
-    connect(this, SIGNAL(sceneChanged()), _gameView, SLOT(sceneChanged()));
-    connect(this, SIGNAL(selectionChanged()), _sceneView, SLOT(editorSelectionChanged()));
-    connect(_sceneView, SIGNAL(sceneSelectionChanged()), _propertiesView, SLOT(sceneSelectionChanged()));
-    connect(_ui->actionAdd_Node, SIGNAL(triggered()), _sceneView, SLOT(actionAddNodeTriggered()));
-
+    connect(_ui->actionOpen, &QAction::triggered, this, &EditorWindow::actionOpenTriggered);
+    connect(_ui->actionNew, &QAction::triggered, this, &EditorWindow::actionNewTriggered);
+    connect(_ui->actionFullscreen, &QAction::toggled, this, &EditorWindow::actionFullscreenToggled);
+    connect(_ui->actionTransformMode_World, &QAction::triggered, this, &EditorWindow::actionTransformModeWorldTriggered);
+    connect(_ui->actionTransformMode_Local, &QAction::triggered, this, &EditorWindow::actionTransformModeLocalTriggered);
+    connect(_ui->actionShading_Lit, &QAction::triggered, this, &EditorWindow::actionShadingLitTriggered);
+    connect(_ui->actionShading_Unlit, &QAction::triggered, this, &EditorWindow::actionShadingUnlitTriggered);
+    connect(_ui->actionShading_Wireframe, &QAction::triggered, this, &EditorWindow::actionShadingWireframeTriggered);
+    connect(_projectView, &ProjectView::sceneOpened, this, &EditorWindow::sceneOpened);
+    connect(this, &EditorWindow::sceneChanged, _sceneView, &SceneView::sceneChanged);
+    connect(this, &EditorWindow::sceneChanged, _gameView, &GameView::sceneChanged);
+    connect(this, &EditorWindow::selectionChanged, _sceneView, &SceneView::editorSelectionChanged);
+    connect(_ui->actionAdd_Node, &QAction::triggered, _sceneView, &SceneView::actionAddNodeTriggered);
 }
 
 EditorWindow::~EditorWindow()
@@ -195,7 +193,7 @@ const std::string& EditorWindow::getAssetPath() const
 void EditorWindow::setProjectWizard(ProjectWizard* projectWizard)
 {
     _projectWizard = projectWizard;    
-    connect(_projectWizard, SIGNAL(projectOpened(QString)), this, SLOT(projectOpened(QString)));
+    connect(_projectWizard, &ProjectWizard::projectOpened, this, &EditorWindow::projectOpened);
 }
 
 Project* EditorWindow::getProject() const
@@ -216,6 +214,11 @@ Scene* EditorWindow::getScene() const
 SceneView* EditorWindow::getSceneView() const
 {
     return _sceneView;
+}
+
+PropertiesView* EditorWindow::getProperiesView() const
+{
+    return _propertiesView;
 }
 
 Vector2* EditorWindow::getSelectionBegin() const
