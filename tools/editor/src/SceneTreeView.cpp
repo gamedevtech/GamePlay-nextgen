@@ -35,4 +35,5 @@ void SceneTreeView::keyPressEvent(QKeyEvent* event)
         }
         break;
     }
+    QTreeView::keyPressEvent(event);
 }

@@ -57,7 +57,13 @@ public slots:
      *
      * @param name The updated name.
      */
-    void nodeNameChanged(const QString& name);
+    void nodeNameChanged();
+
+    void nodePositionChanged();
+
+    void nodeRotationChanged();
+
+    void nodeScaleChanged();
 
 
 private:

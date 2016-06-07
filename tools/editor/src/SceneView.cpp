@@ -80,11 +80,20 @@ std::list<QStandardItem*>* SceneView::getItemsSelected() const
 void SceneView::sceneChanged()
 {
     _scene = _editor->getScene();
+
+    _ui->treeView->clearSelection();
+    _sceneModel->clear();
+
     for (Node* node = _scene->getFirstNode(); node != nullptr; node = node->getNextSibling())
     {
         QStandardItem* item = createHierarchy(node);
+        item->setSelectable(true);
         _sceneModel->appendRow(item);
     }
+
+    QModelIndex first = _sceneModel->index(0, 0, QModelIndex());
+    _ui->treeView->setCurrentIndex(_sceneSortFilter->mapFromSource(first));
+    _editor->getProperiesView()->nodeSelectionChanged();
 }
 
 void SceneView::editorSelectionChanged()
@@ -130,20 +139,15 @@ Ui::SceneView* SceneView::ui()
 
 void SceneView::deleteItemsSelected()
 {
-    while(!_ui->treeView->selectionModel()->selectedIndexes().isEmpty())
+    QModelIndexList selectedItems = _ui->treeView->selectionModel()->selectedRows();
+    unsigned int count = selectedItems.size();
+    if (count <= 0)
+        return;
+
+    for (int i = count - 1; i >= 0; --i)
     {
-        QModelIndex index = _ui->treeView->selectionModel()->selectedIndexes().first();
-
-        // Delete the node hosted in the user data
-        QStandardItem* itemSelected = _sceneModel->itemFromIndex(_sceneSortFilter->mapToSource(index));
-        QVariant userData = itemSelected->data(Qt::UserRole + 1);
-        Node* nodeSelected = (Node*)userData.toLongLong();
-
-        // Delete the item selected
-        if (!_sceneModel->removeRow(index.row(), index.parent()))
-        {
-            printf("failed");
-        }
+        QModelIndex index = _sceneSortFilter->mapToSource(selectedItems[i]);
+        _sceneModel->removeRow(index.row(), index.parent());
     }
     _itemsSelected->clear();
 }

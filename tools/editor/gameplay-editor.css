@@ -998,7 +998,7 @@ QListView::item:!selected:hover, QListView::item:!selected:hover, QTreeView::ite
 {
     background: rgba(0, 0, 0, 0);
     outline: 0;
-    color: #FFFFFF
+    color: #FFFFFF;
 }
 
 QListView::item:selected:hover, QListView::item:selected:hover, QTreeView::item:selected:hover
